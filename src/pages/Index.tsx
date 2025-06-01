@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { 
   CheckSquare, 
@@ -17,6 +16,7 @@ import SystemProgressChart from '@/components/dashboard/SystemProgressChart';
 import TaskPriorityChart from '@/components/dashboard/TaskPriorityChart';
 import ProductivityChart from '@/components/dashboard/ProductivityChart';
 import CompanyCard from '@/components/companies/CompanyCard';
+import CompanyCreateModal from '@/components/companies/CompanyCreateModal';
 import SystemCard from '@/components/systems/SystemCard';
 import KanbanBoard from '@/components/tasks/KanbanBoard';
 import IncidentCard from '@/components/incidents/IncidentCard';
@@ -38,10 +38,20 @@ const Index = () => {
     ));
   };
 
+  const handleTaskUpdate = (updatedTask: Task) => {
+    setTasks(prev => prev.map(task => 
+      task.id === updatedTask.id ? updatedTask : task
+    ));
+  };
+
   const handleCompanyUpdate = (updatedCompany: Company) => {
     setCompanies(prev => prev.map(company => 
       company.id === updatedCompany.id ? updatedCompany : company
     ));
+  };
+
+  const handleCompanyCreate = (newCompany: Company) => {
+    setCompanies(prev => [...prev, newCompany]);
   };
 
   const handleSystemUpdate = (updatedSystem: System) => {
@@ -82,27 +92,27 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <MetricCard
                 title="Tarefas Pendentes"
-                value={pendingTasks}
+                value={tasks.filter(t => t.status === 'pending').length}
                 icon={CheckSquare}
                 color="blue"
                 trend={{ value: 12, isPositive: false }}
               />
               <MetricCard
                 title="Sistemas Ativos"
-                value={systemsInProgress}
+                value={systems.filter(s => s.status === 'in_progress').length}
                 icon={Server}
                 color="green"
                 trend={{ value: 8, isPositive: true }}
               />
               <MetricCard
                 title="Empresas Atendidas"
-                value={mockCompanies.length}
+                value={companies.length}
                 icon={Building2}
                 color="blue"
               />
               <MetricCard
                 title="Incidentes Abertos"
-                value={openIncidents}
+                value={mockIncidents.filter(i => i.status !== 'resolved').length}
                 icon={AlertTriangle}
                 color="red"
                 trend={{ value: 25, isPositive: false }}
@@ -141,7 +151,7 @@ const Index = () => {
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold">Sistemas em Foco</h2>
                 <div className="space-y-3">
-                  {mockSystems.slice(0, 3).map(system => (
+                  {systems.slice(0, 3).map(system => (
                     <div key={system.id} className="p-4 bg-white border rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-medium">{system.name}</h3>
@@ -164,9 +174,12 @@ const Index = () => {
       case 'companies':
         return (
           <div className="space-y-6">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Empresas</h1>
-              <p className="text-gray-600">Configure notas fiscais, cupons e automação para cada empresa</p>
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Empresas</h1>
+                <p className="text-gray-600">Configure notas fiscais, cupons e automação para cada empresa</p>
+              </div>
+              <CompanyCreateModal onSave={handleCompanyCreate} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -203,7 +216,9 @@ const Index = () => {
                 <SystemCard
                   key={system.id}
                   system={system}
-                  companyNames={getCompanyNames(system.companies)}
+                  companyNames={system.companies.map(id => 
+                    companies.find(c => c.id === id)?.name || 'Empresa não encontrada'
+                  )}
                   onUpdate={handleSystemUpdate}
                 />
               ))}
@@ -221,7 +236,7 @@ const Index = () => {
 
             <div className="bg-white rounded-lg border h-[80vh]">
               <iframe
-                src="https://mindmeister.com/"
+                src="https://www.mindmeister.com/"
                 className="w-full h-full rounded-lg"
                 title="MindMeister"
                 style={{ border: 'none' }}
@@ -259,7 +274,11 @@ const Index = () => {
               <p className="text-gray-600">Organize e acompanhe todas as suas tarefas</p>
             </div>
 
-            <KanbanBoard tasks={tasks} onStatusChange={handleTaskStatusChange} />
+            <KanbanBoard 
+              tasks={tasks} 
+              onStatusChange={handleTaskStatusChange}
+              onTaskUpdate={handleTaskUpdate}
+            />
           </div>
         );
 
@@ -276,8 +295,8 @@ const Index = () => {
                 <IncidentCard
                   key={incident.id}
                   incident={incident}
-                  systemName={getSystemName(incident.systemId)}
-                  companyName={getCompanyName(incident.companyId)}
+                  systemName={systems.find(s => s.id === incident.systemId)?.name || 'Sistema não encontrado'}
+                  companyName={companies.find(c => c.id === incident.companyId)?.name || 'Empresa não encontrada'}
                 />
               ))}
             </div>

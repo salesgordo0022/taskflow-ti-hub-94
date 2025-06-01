@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Task } from '@/types';
 import { cn } from '@/lib/utils';
+import TaskEditModal from './TaskEditModal';
 
 interface TaskCardProps {
   task: Task;
-  systemName?: string;
-  companyName?: string;
   onStatusChange: (taskId: string, status: Task['status']) => void;
+  onTaskUpdate?: (task: Task) => void;
 }
 
 const priorityConfig = {
@@ -26,7 +26,7 @@ const statusConfig = {
   completed: { label: 'Concluído', icon: CheckCircle2, color: 'text-green-500' }
 };
 
-const TaskCard = ({ task, systemName, companyName, onStatusChange }: TaskCardProps) => {
+const TaskCard = ({ task, onStatusChange, onTaskUpdate }: TaskCardProps) => {
   const priority = priorityConfig[task.priority];
   const status = statusConfig[task.status];
   const StatusIcon = status.icon;
@@ -36,6 +36,12 @@ const TaskCard = ({ task, systemName, companyName, onStatusChange }: TaskCardPro
   const subtaskProgress = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
 
   const isOverdue = task.status !== 'completed' && new Date() > task.dueDate;
+
+  const handleTaskUpdate = (updatedTask: Task) => {
+    if (onTaskUpdate) {
+      onTaskUpdate(updatedTask);
+    }
+  };
 
   return (
     <Card className={cn(
@@ -63,14 +69,6 @@ const TaskCard = ({ task, systemName, companyName, onStatusChange }: TaskCardPro
       </CardHeader>
       <CardContent className="space-y-3">
         <p className="text-sm text-gray-600">{task.description}</p>
-        
-        {(systemName || companyName) && (
-          <div className="text-sm text-gray-500">
-            {systemName && <span>Sistema: {systemName}</span>}
-            {systemName && companyName && <span className="mx-2">•</span>}
-            {companyName && <span>Empresa: {companyName}</span>}
-          </div>
-        )}
 
         {totalSubtasks > 0 && (
           <div className="space-y-2">
@@ -112,9 +110,7 @@ const TaskCard = ({ task, systemName, companyName, onStatusChange }: TaskCardPro
               Concluir
             </Button>
           )}
-          <Button variant="outline" size="sm" className="flex-1">
-            Editar
-          </Button>
+          <TaskEditModal task={task} onSave={handleTaskUpdate} />
         </div>
       </CardContent>
     </Card>

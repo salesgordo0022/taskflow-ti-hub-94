@@ -9,7 +9,9 @@ import {
   BarChart3, 
   Calendar,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Brain,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -25,6 +27,8 @@ const menuItems = [
   { id: 'systems', label: 'Sistemas', icon: Server },
   { id: 'tasks', label: 'Tarefas', icon: CheckSquare },
   { id: 'incidents', label: 'Incidentes', icon: AlertTriangle },
+  { id: 'mindmap', label: 'Mapa Mental', icon: Brain },
+  { id: 'slack', label: 'Slack', icon: MessageSquare },
   { id: 'reports', label: 'Relatórios', icon: BarChart3 },
   { id: 'calendar', label: 'Calendário', icon: Calendar },
 ];

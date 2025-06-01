@@ -1,5 +1,5 @@
 
-import { Server, Users, Calendar, TrendingUp } from 'lucide-react';
+import { Server, Users, Calendar, CheckCircle, XCircle, ExternalLink, Key } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -35,9 +35,22 @@ const SystemCard = ({ system, companyNames }: SystemCardProps) => {
               <p className="text-sm text-gray-500">v{system.version}</p>
             </div>
           </div>
-          <Badge className={cn("text-white", status.color)}>
-            {status.label}
-          </Badge>
+          <div className="flex flex-col space-y-1">
+            <Badge className={cn("text-white", status.color)}>
+              {status.label}
+            </Badge>
+            {system.isImplemented ? (
+              <Badge className="bg-green-100 text-green-800">
+                <CheckCircle className="h-3 w-3 mr-1" />
+                Implantado
+              </Badge>
+            ) : (
+              <Badge variant="outline">
+                <XCircle className="h-3 w-3 mr-1" />
+                Não Implantado
+              </Badge>
+            )}
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -49,6 +62,11 @@ const SystemCard = ({ system, companyNames }: SystemCardProps) => {
             <span className="font-medium">{system.progress}%</span>
           </div>
           <Progress value={system.progress} className="h-2" />
+        </div>
+
+        <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <Key className="h-4 w-4" />
+          <span>{system.accessUsers.length} usuários com acesso</span>
         </div>
 
         <div className="flex items-center space-x-4 text-sm text-gray-600">
@@ -75,13 +93,26 @@ const SystemCard = ({ system, companyNames }: SystemCardProps) => {
           <p className="text-sm">{companyNames.join(', ')}</p>
         </div>
 
-        <div className="flex space-x-2 pt-2">
-          <Button variant="outline" size="sm" className="flex-1">
-            Ver Detalhes
-          </Button>
-          <Button variant="outline" size="sm" className="flex-1">
-            Editar
-          </Button>
+        <div className="space-y-2 pt-2">
+          {system.systemUrl && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full"
+              onClick={() => window.open(system.systemUrl, '_blank')}
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Acessar Sistema
+            </Button>
+          )}
+          <div className="flex space-x-2">
+            <Button variant="outline" size="sm" className="flex-1">
+              Controlar Acesso
+            </Button>
+            <Button variant="outline" size="sm" className="flex-1">
+              Editar
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

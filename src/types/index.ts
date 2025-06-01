@@ -1,4 +1,3 @@
-
 export interface Company {
   id: string;
   name: string;
@@ -7,6 +6,11 @@ export interface Company {
   email: string;
   phone: string;
   createdAt: Date;
+  hasNotaEntrada: boolean;
+  hasNotaSaida: boolean;
+  hasCupom: boolean;
+  isAutomated: boolean;
+  responsiblePerson: string;
 }
 
 export interface System {
@@ -22,6 +26,9 @@ export interface System {
   companies: string[];
   progress: number;
   tags: string[];
+  isImplemented: boolean;
+  accessUsers: string[];
+  systemUrl?: string;
 }
 
 export interface Task {

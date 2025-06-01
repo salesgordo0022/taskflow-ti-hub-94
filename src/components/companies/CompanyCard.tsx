@@ -1,5 +1,5 @@
 
-import { Building2, Mail, Phone, Calendar } from 'lucide-react';
+import { Building2, Mail, Phone, Calendar, CheckCircle, XCircle, User, Bot } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -25,13 +25,51 @@ const CompanyCard = ({ company, systemsCount, tasksCount }: CompanyCardProps) =>
               <p className="text-sm text-gray-500">{company.cnpj}</p>
             </div>
           </div>
-          <div className="flex space-x-2">
-            <Badge variant="outline">{systemsCount} sistemas</Badge>
-            <Badge variant="outline">{tasksCount} tarefas</Badge>
+          <div className="flex flex-col space-y-1">
+            {company.isAutomated ? (
+              <Badge className="bg-green-100 text-green-800">
+                <Bot className="h-3 w-3 mr-1" />
+                Automatizada
+              </Badge>
+            ) : (
+              <Badge variant="outline">Manual</Badge>
+            )}
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="flex items-center space-x-1 text-xs">
+            {company.hasNotaEntrada ? (
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-600" />
+            )}
+            <span>Nota Entrada</span>
+          </div>
+          <div className="flex items-center space-x-1 text-xs">
+            {company.hasNotaSaida ? (
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-600" />
+            )}
+            <span>Nota Saída</span>
+          </div>
+          <div className="flex items-center space-x-1 text-xs">
+            {company.hasCupom ? (
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-600" />
+            )}
+            <span>Cupom</span>
+          </div>
+        </div>
+        
+        <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <User className="h-4 w-4" />
+          <span>Responsável: {company.responsiblePerson}</span>
+        </div>
+
         <div className="flex items-center space-x-2 text-sm text-gray-600">
           <Mail className="h-4 w-4" />
           <span>{company.email}</span>
@@ -44,6 +82,12 @@ const CompanyCard = ({ company, systemsCount, tasksCount }: CompanyCardProps) =>
           <Calendar className="h-4 w-4" />
           <span>Cliente desde {company.createdAt.toLocaleDateString()}</span>
         </div>
+        
+        <div className="flex space-x-2">
+          <Badge variant="outline">{systemsCount} sistemas</Badge>
+          <Badge variant="outline">{tasksCount} tarefas</Badge>
+        </div>
+
         <div className="flex items-center space-x-2 pt-2">
           <Button variant="outline" size="sm" className="flex-1">
             Ver Detalhes

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { 
   CheckSquare, 
@@ -149,7 +148,7 @@ const Index = () => {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Empresas</h1>
-              <p className="text-gray-600">Gerencie todas as empresas atendidas</p>
+              <p className="text-gray-600">Configure notas fiscais, cupons e automação para cada empresa</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -177,7 +176,7 @@ const Index = () => {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Sistemas</h1>
-              <p className="text-gray-600">Acompanhe o progresso de todos os sistemas</p>
+              <p className="text-gray-600">Controle acessos e acompanhe a implementação dos sistemas</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -188,6 +187,44 @@ const Index = () => {
                   companyNames={getCompanyNames(system.companies)}
                 />
               ))}
+            </div>
+          </div>
+        );
+
+      case 'mindmap':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Mapa Mental</h1>
+              <p className="text-gray-600">Visualize e organize seus mapas mentais com MindMeister</p>
+            </div>
+
+            <div className="bg-white rounded-lg border h-[80vh]">
+              <iframe
+                src="https://mindmeister.com/"
+                className="w-full h-full rounded-lg"
+                title="MindMeister"
+                style={{ border: 'none' }}
+              />
+            </div>
+          </div>
+        );
+
+      case 'slack':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Slack</h1>
+              <p className="text-gray-600">Acesse sua equipe e canais do Slack</p>
+            </div>
+
+            <div className="bg-white rounded-lg border h-[80vh]">
+              <iframe
+                src="https://slack.com/"
+                className="w-full h-full rounded-lg"
+                title="Slack"
+                style={{ border: 'none' }}
+              />
             </div>
           </div>
         );

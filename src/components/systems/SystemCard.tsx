@@ -1,15 +1,16 @@
-
-import { Server, Users, Calendar, CheckCircle, XCircle, ExternalLink, Key } from 'lucide-react';
+import { Server, Users, Calendar, CheckCircle, XCircle, ExternalLink, Key, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { System } from '@/types';
 import { cn } from '@/lib/utils';
+import SystemEditModal from './SystemEditModal';
 
 interface SystemCardProps {
   system: System;
   companyNames: string[];
+  onUpdate: (system: System) => void;
 }
 
 const statusConfig = {
@@ -19,7 +20,7 @@ const statusConfig = {
   completed: { label: 'Concluído', color: 'bg-green-500' }
 };
 
-const SystemCard = ({ system, companyNames }: SystemCardProps) => {
+const SystemCard = ({ system, companyNames, onUpdate }: SystemCardProps) => {
   const status = statusConfig[system.status];
 
   return (
@@ -107,11 +108,10 @@ const SystemCard = ({ system, companyNames }: SystemCardProps) => {
           )}
           <div className="flex space-x-2">
             <Button variant="outline" size="sm" className="flex-1">
-              Controlar Acesso
+              <Eye className="h-4 w-4 mr-2" />
+              Ver Detalhes
             </Button>
-            <Button variant="outline" size="sm" className="flex-1">
-              Editar
-            </Button>
+            <SystemEditModal system={system} onSave={onUpdate} />
           </div>
         </div>
       </CardContent>

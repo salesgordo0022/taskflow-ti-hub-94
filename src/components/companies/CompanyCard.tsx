@@ -1,17 +1,18 @@
-
-import { Building2, Mail, Phone, Calendar, CheckCircle, XCircle, User, Bot } from 'lucide-react';
+import { Building2, Mail, Phone, Calendar, CheckCircle, XCircle, User, Bot, Eye } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Company } from '@/types';
+import CompanyEditModal from './CompanyEditModal';
 
 interface CompanyCardProps {
   company: Company;
   systemsCount: number;
   tasksCount: number;
+  onUpdate: (company: Company) => void;
 }
 
-const CompanyCard = ({ company, systemsCount, tasksCount }: CompanyCardProps) => {
+const CompanyCard = ({ company, systemsCount, tasksCount, onUpdate }: CompanyCardProps) => {
   return (
     <Card className="hover:shadow-lg transition-shadow duration-200">
       <CardHeader className="pb-3">
@@ -90,11 +91,10 @@ const CompanyCard = ({ company, systemsCount, tasksCount }: CompanyCardProps) =>
 
         <div className="flex items-center space-x-2 pt-2">
           <Button variant="outline" size="sm" className="flex-1">
+            <Eye className="h-4 w-4 mr-2" />
             Ver Detalhes
           </Button>
-          <Button variant="outline" size="sm" className="flex-1">
-            Editar
-          </Button>
+          <CompanyEditModal company={company} onSave={onUpdate} />
         </div>
       </CardContent>
     </Card>

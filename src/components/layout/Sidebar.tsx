@@ -11,7 +11,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Brain,
-  MessageSquare
+  MessageSquare,
+  Settings
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -31,6 +32,7 @@ const menuItems = [
   { id: 'slack', label: 'Slack', icon: MessageSquare },
   { id: 'reports', label: 'Relatórios', icon: BarChart3 },
   { id: 'calendar', label: 'Calendário', icon: Calendar },
+  { id: 'settings', label: 'Configurações', icon: Settings },
 ];
 
 const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {

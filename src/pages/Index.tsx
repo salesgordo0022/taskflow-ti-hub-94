@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { 
   CheckSquare, 
@@ -5,7 +6,8 @@ import {
   Building2, 
   AlertTriangle, 
   Clock,
-  TrendingUp
+  TrendingUp,
+  Settings
 } from 'lucide-react';
 
 import Header from '@/components/layout/Header';
@@ -18,13 +20,17 @@ import CompanyCard from '@/components/companies/CompanyCard';
 import SystemCard from '@/components/systems/SystemCard';
 import KanbanBoard from '@/components/tasks/KanbanBoard';
 import IncidentCard from '@/components/incidents/IncidentCard';
+import CalendarView from '@/components/calendar/CalendarView';
+import ProfileSettings from '@/components/profile/ProfileSettings';
 
 import { mockCompanies, mockSystems, mockTasks, mockIncidents } from '@/utils/mockData';
-import { Task } from '@/types';
+import { Task, Company, System } from '@/types';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [tasks, setTasks] = useState(mockTasks);
+  const [companies, setCompanies] = useState(mockCompanies);
+  const [systems, setSystems] = useState(mockSystems);
 
   const handleTaskStatusChange = (taskId: string, status: Task['status']) => {
     setTasks(prev => prev.map(task => 
@@ -32,23 +38,35 @@ const Index = () => {
     ));
   };
 
+  const handleCompanyUpdate = (updatedCompany: Company) => {
+    setCompanies(prev => prev.map(company => 
+      company.id === updatedCompany.id ? updatedCompany : company
+    ));
+  };
+
+  const handleSystemUpdate = (updatedSystem: System) => {
+    setSystems(prev => prev.map(system => 
+      system.id === updatedSystem.id ? updatedSystem : system
+    ));
+  };
+
   const getCompanyNames = (companyIds: string[]) => {
     return companyIds.map(id => 
-      mockCompanies.find(c => c.id === id)?.name || 'Empresa não encontrada'
+      companies.find(c => c.id === id)?.name || 'Empresa não encontrada'
     );
   };
 
   const getSystemName = (systemId: string) => {
-    return mockSystems.find(s => s.id === systemId)?.name || 'Sistema não encontrado';
+    return systems.find(s => s.id === systemId)?.name || 'Sistema não encontrado';
   };
 
   const getCompanyName = (companyId: string) => {
-    return mockCompanies.find(c => c.id === companyId)?.name || 'Empresa não encontrada';
+    return companies.find(c => c.id === companyId)?.name || 'Empresa não encontrada';
   };
 
   const pendingTasks = tasks.filter(t => t.status === 'pending').length;
   const completedTasks = tasks.filter(t => t.status === 'completed').length;
-  const systemsInProgress = mockSystems.filter(s => s.status === 'in_progress').length;
+  const systemsInProgress = systems.filter(s => s.status === 'in_progress').length;
   const openIncidents = mockIncidents.filter(i => i.status !== 'resolved').length;
 
   const renderContent = () => {
@@ -152,8 +170,8 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockCompanies.map(company => {
-                const systemsCount = mockSystems.filter(s => 
+              {companies.map(company => {
+                const systemsCount = systems.filter(s => 
                   s.companies.includes(company.id)
                 ).length;
                 const tasksCount = tasks.filter(t => t.companyId === company.id).length;
@@ -164,6 +182,7 @@ const Index = () => {
                     company={company}
                     systemsCount={systemsCount}
                     tasksCount={tasksCount}
+                    onUpdate={handleCompanyUpdate}
                   />
                 );
               })}
@@ -180,11 +199,12 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockSystems.map(system => (
+              {systems.map(system => (
                 <SystemCard
                   key={system.id}
                   system={system}
                   companyNames={getCompanyNames(system.companies)}
+                  onUpdate={handleSystemUpdate}
                 />
               ))}
             </div>
@@ -205,6 +225,7 @@ const Index = () => {
                 className="w-full h-full rounded-lg"
                 title="MindMeister"
                 style={{ border: 'none' }}
+                allow="fullscreen"
               />
             </div>
           </div>
@@ -224,6 +245,7 @@ const Index = () => {
                 className="w-full h-full rounded-lg"
                 title="Slack"
                 style={{ border: 'none' }}
+                allow="fullscreen"
               />
             </div>
           </div>
@@ -307,19 +329,12 @@ const Index = () => {
               <p className="text-gray-600">Visualize todas as suas tarefas e prazos</p>
             </div>
 
-            <div className="bg-white p-6 rounded-lg border">
-              <div className="text-center py-20">
-                <Clock className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Calendário em Desenvolvimento
-                </h3>
-                <p className="text-gray-600">
-                  A visualização do calendário será implementada em breve
-                </p>
-              </div>
-            </div>
+            <CalendarView tasks={tasks} />
           </div>
         );
+
+      case 'settings':
+        return <ProfileSettings />;
 
       default:
         return <div>Página não encontrada</div>;

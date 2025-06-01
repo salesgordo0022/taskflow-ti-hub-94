@@ -1,4 +1,3 @@
-
 import { Company, System, Task, User, Incident } from '@/types';
 
 export const mockCompanies: Company[] = [
@@ -9,7 +8,12 @@ export const mockCompanies: Company[] = [
     responsible: 'Maria Silva',
     email: 'maria@abcindustria.com',
     phone: '(11) 98765-4321',
-    createdAt: new Date('2024-01-15')
+    createdAt: new Date('2024-01-15'),
+    hasNotaEntrada: true,
+    hasNotaSaida: true,
+    hasCupom: false,
+    isAutomated: true,
+    responsiblePerson: 'Maria Silva'
   },
   {
     id: '2',
@@ -18,7 +22,12 @@ export const mockCompanies: Company[] = [
     responsible: 'João Santos',
     email: 'joao@xyzcomercio.com',
     phone: '(11) 99876-5432',
-    createdAt: new Date('2024-02-20')
+    createdAt: new Date('2024-02-20'),
+    hasNotaEntrada: true,
+    hasNotaSaida: false,
+    hasCupom: true,
+    isAutomated: false,
+    responsiblePerson: 'João Santos'
   },
   {
     id: '3',
@@ -27,7 +36,12 @@ export const mockCompanies: Company[] = [
     responsible: 'Ana Costa',
     email: 'ana@techsolutions.com',
     phone: '(11) 91234-5678',
-    createdAt: new Date('2024-03-10')
+    createdAt: new Date('2024-03-10'),
+    hasNotaEntrada: false,
+    hasNotaSaida: true,
+    hasCupom: true,
+    isAutomated: true,
+    responsiblePerson: 'Ana Costa'
   }
 ];
 
@@ -43,7 +57,10 @@ export const mockSystems: System[] = [
     expectedEndDate: new Date('2024-06-15'),
     companies: ['1', '2'],
     progress: 65,
-    tags: ['fiscal', 'erp', 'integração']
+    tags: ['fiscal', 'erp', 'integração'],
+    isImplemented: true,
+    accessUsers: ['carlos@empresa.com', 'ana@empresa.com'],
+    systemUrl: 'https://erp-fiscal.exemplo.com'
   },
   {
     id: '2',
@@ -56,7 +73,10 @@ export const mockSystems: System[] = [
     expectedEndDate: new Date('2024-05-30'),
     companies: ['1', '3'],
     progress: 90,
-    tags: ['folha', 'rh', 'cálculos']
+    tags: ['folha', 'rh', 'cálculos'],
+    isImplemented: true,
+    accessUsers: ['ana@empresa.com', 'pedro@empresa.com', 'carlos@empresa.com'],
+    systemUrl: 'https://folha-pagamento.exemplo.com'
   },
   {
     id: '3',
@@ -69,7 +89,9 @@ export const mockSystems: System[] = [
     expectedEndDate: new Date('2024-07-15'),
     companies: ['2', '3'],
     progress: 15,
-    tags: ['nfe', 'fiscal', 'sefaz']
+    tags: ['nfe', 'fiscal', 'sefaz'],
+    isImplemented: false,
+    accessUsers: ['carlos@empresa.com']
   }
 ];
 

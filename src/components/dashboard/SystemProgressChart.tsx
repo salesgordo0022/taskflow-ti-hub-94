@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InteractiveReportsTable from '@/components/reports/InteractiveReportsTable';
 
 const data = [
-  { name: 'Planejado', value: 1, color: '#6366f1' },
-  { name: 'Em Execução', value: 1, color: '#8b5cf6' },
-  { name: 'Teste', value: 1, color: '#06b6d4' },
-  { name: 'Concluído', value: 0, color: '#10b981' }
+  { name: 'Planejado', value: 1, color: '#8B4513' },
+  { name: 'Em Execução', value: 1, color: '#A0522D' },
+  { name: 'Teste', value: 1, color: '#CD853F' },
+  { name: 'Concluído', value: 0, color: '#DEB887' }
 ];
 
 const mockDetailedData = [
@@ -26,9 +26,9 @@ const SystemProgressChart = () => {
 
   return (
     <>
-      <Card className="h-96">
+      <Card className="h-96 sad-fade-in card-dark sad-glow">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">
+          <CardTitle className="text-lg font-semibold text-white">
             Status dos Sistemas
           </CardTitle>
         </CardHeader>
@@ -55,13 +55,17 @@ const SystemProgressChart = () => {
               </Pie>
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--card))',
-                  border: '1px solid hsl(var(--border))',
+                  backgroundColor: 'rgba(20, 20, 25, 0.95)',
+                  border: '1px solid rgba(55, 55, 60, 0.5)',
                   borderRadius: '8px',
-                  color: 'hsl(var(--foreground))'
+                  color: 'white'
                 }}
               />
-              <Legend />
+              <Legend 
+                wrapperStyle={{
+                  color: 'white'
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </CardContent>

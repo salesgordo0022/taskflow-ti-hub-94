@@ -24,40 +24,40 @@ const MetricCard = ({
   color = 'blue' 
 }: MetricCardProps) => {
   const colorClasses = {
-    blue: 'text-blue-500',
-    green: 'text-green-500',
-    yellow: 'text-yellow-500',
-    red: 'text-red-500'
+    blue: 'text-blue-300',
+    green: 'text-green-300',
+    yellow: 'text-yellow-300',
+    red: 'text-red-300'
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-all duration-500 sad-fade-in card-dark sad-glow">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex-1">
-            <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-            <p className="text-3xl font-bold text-foreground">
+            <p className="text-sm font-medium text-white mb-1 opacity-80">{title}</p>
+            <p className="text-3xl font-bold text-white">
               {value}
             </p>
             {subtitle && (
-              <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+              <p className="text-sm text-white mt-1 opacity-70">{subtitle}</p>
             )}
             {trend && (
               <div className="flex items-center mt-3">
                 <span className={cn(
                   "text-xs font-medium px-2 py-1 rounded",
                   trend.isPositive 
-                    ? "text-green-600 bg-green-100" 
-                    : "text-red-600 bg-red-100"
+                    ? "text-green-300 bg-green-900/30" 
+                    : "text-red-300 bg-red-900/30"
                 )}>
                   {trend.isPositive ? '+' : ''}{trend.value}%
                 </span>
-                <span className="text-xs text-muted-foreground ml-2">vs. mês anterior</span>
+                <span className="text-xs text-white ml-2 opacity-60">vs. mês anterior</span>
               </div>
             )}
           </div>
           <div className={cn(
-            "flex items-center justify-center w-12 h-12 rounded-lg",
+            "flex items-center justify-center w-12 h-12 rounded-lg opacity-80",
             colorClasses[color]
           )}>
             <Icon className="h-6 w-6" />

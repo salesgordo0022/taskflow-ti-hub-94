@@ -377,7 +377,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen bg-black flex">
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
       <div className="flex-1 flex flex-col">
         <Header onTabChange={setActiveTab} />

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Bell, Search, Settings, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,7 @@ const Header = ({ onTabChange }: HeaderProps) => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   return (
-    <header className="h-16 border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
+    <header className="h-16 border-b bg-black/80 backdrop-blur-sm sticky top-0 z-40">
       <div className="flex items-center justify-between h-full px-6">
         <div className="flex items-center space-x-4">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">

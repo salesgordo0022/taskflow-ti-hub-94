@@ -97,9 +97,9 @@ const Index = () => {
       case 'dashboard':
         return (
           <div className="space-y-6">
-            <div className="macos-card p-6">
-              <h1 className="text-3xl font-semibold text-gray-900 mb-2">Dashboard</h1>
-              <p className="text-gray-600">Visão geral do seu ambiente de TI</p>
+            <div className="card-dark p-6 rounded-lg">
+              <h1 className="text-3xl font-semibold text-white mb-2">Dashboard</h1>
+              <p className="text-white opacity-80">Visão geral do seu ambiente de TI</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -139,38 +139,38 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="macos-card p-6">
-                <h2 className="text-xl font-semibold mb-4">Tarefas Recentes</h2>
+              <div className="card-dark p-6 rounded-lg">
+                <h2 className="text-xl font-semibold mb-4 text-white">Tarefas Recentes</h2>
                 <div className="space-y-3">
                   {tasks.slice(0, 3).map(task => (
-                    <div key={task.id} className="p-4 bg-white/60 backdrop-blur-sm border border-white/20 rounded-lg">
+                    <div key={task.id} className="p-4 bg-slate-800/60 backdrop-blur-sm border border-slate-700/20 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-medium">{task.title}</h3>
+                        <h3 className="font-medium text-white">{task.title}</h3>
                         <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                          task.status === 'completed' ? 'bg-green-100/80 text-green-800' :
-                          task.status === 'in_progress' ? 'bg-blue-100/80 text-blue-800' :
-                          'bg-gray-100/80 text-gray-800'
+                          task.status === 'completed' ? 'bg-green-800/60 text-green-300' :
+                          task.status === 'in_progress' ? 'bg-blue-800/60 text-blue-300' :
+                          'bg-gray-800/60 text-gray-300'
                         }`}>
                           {task.status === 'completed' ? 'Concluído' :
                            task.status === 'in_progress' ? 'Em Andamento' : 'Pendente'}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600">{task.description}</p>
+                      <p className="text-sm text-white opacity-70">{task.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="macos-card p-6">
-                <h2 className="text-xl font-semibold mb-4">Sistemas em Foco</h2>
+              <div className="card-dark p-6 rounded-lg">
+                <h2 className="text-xl font-semibold mb-4 text-white">Sistemas em Foco</h2>
                 <div className="space-y-3">
                   {systems.slice(0, 3).map(system => (
-                    <div key={system.id} className="p-4 bg-white/60 backdrop-blur-sm border border-white/20 rounded-lg">
+                    <div key={system.id} className="p-4 bg-slate-800/60 backdrop-blur-sm border border-slate-700/20 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-medium">{system.name}</h3>
-                        <span className="text-sm font-medium text-blue-600">{system.progress}%</span>
+                        <h3 className="font-medium text-white">{system.name}</h3>
+                        <span className="text-sm font-medium text-blue-300">{system.progress}%</span>
                       </div>
-                      <div className="w-full bg-gray-200/60 rounded-full h-2">
+                      <div className="w-full bg-gray-700/60 rounded-full h-2">
                         <div 
                           className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-500"
                           style={{ width: `${system.progress}%` }}
@@ -187,33 +187,33 @@ const Index = () => {
       case 'reports':
         return (
           <div className="space-y-6">
-            <div className="macos-card p-6">
-              <h1 className="text-3xl font-semibold text-gray-900 mb-2">Relatórios</h1>
-              <p className="text-gray-600">Análises e relatórios detalhados - Clique nos gráficos para ver detalhes</p>
+            <div className="card-dark p-6 rounded-lg">
+              <h1 className="text-3xl font-semibold text-white mb-2">Relatórios</h1>
+              <p className="text-white opacity-80">Análises e relatórios detalhados - Clique nos gráficos para ver detalhes</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <SystemProgressChart />
               <TaskPriorityChart />
               <ProductivityChart />
-              <div className="macos-card p-6">
-                <h3 className="text-lg font-semibold mb-4">Resumo Executivo</h3>
+              <div className="card-dark p-6 rounded-lg">
+                <h3 className="text-lg font-semibold mb-4 text-white">Resumo Executivo</h3>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-white/60 backdrop-blur-sm rounded-lg">
-                    <span className="text-gray-700">Taxa de Conclusão de Tarefas</span>
-                    <span className="font-semibold text-blue-600">75%</span>
+                  <div className="flex justify-between items-center p-3 bg-slate-800/60 backdrop-blur-sm rounded-lg">
+                    <span className="text-white">Taxa de Conclusão de Tarefas</span>
+                    <span className="font-semibold text-blue-300">75%</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-white/60 backdrop-blur-sm rounded-lg">
-                    <span className="text-gray-700">Tempo Médio de Resolução</span>
-                    <span className="font-semibold text-blue-600">3.2 dias</span>
+                  <div className="flex justify-between items-center p-3 bg-slate-800/60 backdrop-blur-sm rounded-lg">
+                    <span className="text-white">Tempo Médio de Resolução</span>
+                    <span className="font-semibold text-blue-300">3.2 dias</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-white/60 backdrop-blur-sm rounded-lg">
-                    <span className="text-gray-700">Produtividade da Equipe</span>
-                    <span className="font-semibold text-green-600">+15%</span>
+                  <div className="flex justify-between items-center p-3 bg-slate-800/60 backdrop-blur-sm rounded-lg">
+                    <span className="text-white">Produtividade da Equipe</span>
+                    <span className="font-semibold text-green-300">+15%</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-white/60 backdrop-blur-sm rounded-lg">
-                    <span className="text-gray-700">Incidentes Críticos</span>
-                    <span className="font-semibold text-red-600">2</span>
+                  <div className="flex justify-between items-center p-3 bg-slate-800/60 backdrop-blur-sm rounded-lg">
+                    <span className="text-white">Incidentes Críticos</span>
+                    <span className="font-semibold text-red-300">2</span>
                   </div>
                 </div>
               </div>
@@ -229,8 +229,8 @@ const Index = () => {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Empresas</h1>
-                <p className="text-gray-600">Configure notas fiscais, cupons e automação para cada empresa</p>
+                <h1 className="text-3xl font-bold text-white mb-2">Empresas</h1>
+                <p className="text-white opacity-80">Configure notas fiscais, cupons e automação para cada empresa</p>
               </div>
               <CompanyCreateModal onSave={handleCompanyCreate} />
             </div>
@@ -260,8 +260,8 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Sistemas</h1>
-              <p className="text-gray-600">Controle acessos e acompanhe a implementação dos sistemas</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Sistemas</h1>
+              <p className="text-white opacity-80">Controle acessos e acompanhe a implementação dos sistemas</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -283,8 +283,8 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Mapa Mental</h1>
-              <p className="text-gray-600">Visualize e organize seus mapas mentais com MindMeister</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Mapa Mental</h1>
+              <p className="text-white opacity-80">Visualize e organize seus mapas mentais com MindMeister</p>
             </div>
 
             <div className="bg-white rounded-lg border h-[80vh]">
@@ -303,8 +303,8 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Slack</h1>
-              <p className="text-gray-600">Acesse sua equipe e canais do Slack</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Slack</h1>
+              <p className="text-white opacity-80">Acesse sua equipe e canais do Slack</p>
             </div>
 
             <div className="bg-white rounded-lg border h-[80vh]">
@@ -323,8 +323,8 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Tarefas</h1>
-              <p className="text-gray-600">Organize e acompanhe todas as suas tarefas</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Tarefas</h1>
+              <p className="text-white opacity-80">Organize e acompanhe todas as suas tarefas</p>
             </div>
 
             <KanbanBoard 
@@ -339,8 +339,8 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Incidentes</h1>
-              <p className="text-gray-600">Gerencie todos os incidentes técnicos</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Incidentes</h1>
+              <p className="text-white opacity-80">Gerencie todos os incidentes técnicos</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -360,8 +360,8 @@ const Index = () => {
         return (
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Calendário</h1>
-              <p className="text-gray-600">Visualize todas as suas tarefas e prazos</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Calendário</h1>
+              <p className="text-white opacity-80">Visualize todas as suas tarefas e prazos</p>
             </div>
 
             <CalendarView tasks={tasks} />
@@ -377,7 +377,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-white flex">
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
       <div className="flex-1 flex flex-col">
         <Header onTabChange={setActiveTab} />

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { 
   LayoutDashboard, 
@@ -41,11 +42,11 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
 
   return (
     <div className={cn(
-      "h-screen bg-gradient-to-b from-slate-900 to-slate-800 border-r transition-all duration-300",
+      "h-screen bg-black border-r border-gray-800 transition-all duration-300",
       collapsed ? "w-16" : "w-64"
     )}>
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b border-slate-700">
+        <div className="p-4 border-b border-gray-800">
           <div className="flex items-center justify-between">
             {!collapsed && (
               <span className="text-white font-semibold">Menu Principal</span>
@@ -54,7 +55,7 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
               variant="ghost"
               size="sm"
               onClick={() => setCollapsed(!collapsed)}
-              className="text-white hover:bg-slate-700"
+              className="text-white hover:bg-gray-800"
             >
               {collapsed ? (
                 <ChevronRight className="h-4 w-4" />
@@ -75,7 +76,7 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
                 key={item.id}
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start mb-1 text-slate-300 hover:text-white hover:bg-slate-700",
+                  "w-full justify-start mb-1 text-white hover:text-white hover:bg-gray-800",
                   isActive && "bg-blue-600 text-white hover:bg-blue-500",
                   collapsed && "px-2"
                 )}
@@ -88,9 +89,9 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-700">
+        <div className="p-4 border-t border-gray-800">
           {!collapsed && (
-            <div className="text-xs text-slate-400">
+            <div className="text-xs text-gray-400">
               <p>Versão 1.0.0</p>
               <p>© 2024 TaskFlow TI</p>
             </div>

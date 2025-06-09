@@ -5,10 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InteractiveReportsTable from '@/components/reports/InteractiveReportsTable';
 
 const data = [
-  { name: 'Planejado', value: 1, color: '#94a3b8' },
-  { name: 'Em Execução', value: 1, color: '#3b82f6' },
-  { name: 'Teste', value: 1, color: '#f59e0b' },
-  { name: 'Concluído', value: 0, color: '#10b981' }
+  { name: 'Planejado', value: 1, color: '#64748b' },
+  { name: 'Em Execução', value: 1, color: '#9ca3af' },
+  { name: 'Teste', value: 1, color: '#a3a3a3' },
+  { name: 'Concluído', value: 0, color: '#6b7280' }
 ];
 
 const mockDetailedData = [
@@ -26,9 +26,9 @@ const SystemProgressChart = () => {
 
   return (
     <>
-      <Card className="h-96 bg-white/95 backdrop-blur-xl border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardHeader className="border-b border-gray-100/50">
-          <CardTitle className="text-lg font-medium text-gray-900">Status dos Sistemas</CardTitle>
+      <Card className="h-96 bg-card/95 backdrop-blur-xl border-border shadow-lg hover:shadow-xl transition-all duration-300">
+        <CardHeader className="border-b border-border">
+          <CardTitle className="text-lg font-medium text-foreground">Status dos Sistemas</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
@@ -50,10 +50,11 @@ const SystemProgressChart = () => {
               </Pie>
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  backgroundColor: 'rgba(25, 25, 25, 0.95)',
+                  border: '1px solid rgba(156, 163, 175, 0.2)',
                   borderRadius: '8px',
-                  backdropFilter: 'blur(10px)'
+                  backdropFilter: 'blur(10px)',
+                  color: '#e5e5e5'
                 }}
               />
               <Legend />

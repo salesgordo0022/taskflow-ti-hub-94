@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InteractiveReportsTable from '@/components/reports/InteractiveReportsTable';
 
 const data = [
-  { priority: 'Alta', quantidade: 2, color: '#ef4444' },
-  { priority: 'Média', quantidade: 2, color: '#f59e0b' },
-  { priority: 'Baixa', quantidade: 0, color: '#10b981' }
+  { priority: 'Alta', quantidade: 2, color: '#dc2626' },
+  { priority: 'Média', quantidade: 2, color: '#a3a3a3' },
+  { priority: 'Baixa', quantidade: 0, color: '#6b7280' }
 ];
 
 const mockDetailedData = [
@@ -26,27 +26,28 @@ const TaskPriorityChart = () => {
 
   return (
     <>
-      <Card className="h-96 bg-white/95 backdrop-blur-xl border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardHeader className="border-b border-gray-100/50">
-          <CardTitle className="text-lg font-medium text-gray-900">Tarefas por Prioridade</CardTitle>
+      <Card className="h-96 bg-card/95 backdrop-blur-xl border-border shadow-lg hover:shadow-xl transition-all duration-300">
+        <CardHeader className="border-b border-border">
+          <CardTitle className="text-lg font-medium text-foreground">Tarefas por Prioridade</CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={data} onClick={handleBarClick} className="cursor-pointer">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="priority" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
+              <XAxis dataKey="priority" tick={{ fontSize: 12, fill: '#9ca3af' }} />
+              <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
+                  backgroundColor: 'rgba(25, 25, 25, 0.95)',
+                  border: '1px solid rgba(156, 163, 175, 0.2)',
                   borderRadius: '8px',
-                  backdropFilter: 'blur(10px)'
+                  backdropFilter: 'blur(10px)',
+                  color: '#e5e5e5'
                 }}
               />
               <Bar 
                 dataKey="quantidade" 
-                fill="#3b82f6" 
+                fill="#9ca3af" 
                 radius={[6, 6, 0, 0]}
                 onClick={handleBarClick}
                 className="cursor-pointer"

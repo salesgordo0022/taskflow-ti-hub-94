@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import InteractiveReportsTable from '@/components/reports/InteractiveReportsTable';
 
 const data = [
-  { priority: 'Alta', quantidade: 2, color: '#dc2626' },
-  { priority: 'Média', quantidade: 2, color: '#a3a3a3' },
-  { priority: 'Baixa', quantidade: 0, color: '#6b7280' }
+  { priority: 'Alta', quantidade: 2, color: '#ef4444' },
+  { priority: 'Média', quantidade: 2, color: '#f59e0b' },
+  { priority: 'Baixa', quantidade: 0, color: '#10b981' }
 ];
 
 const mockDetailedData = [
@@ -26,32 +26,48 @@ const TaskPriorityChart = () => {
 
   return (
     <>
-      <Card className="h-96 bg-card/95 backdrop-blur-xl border-border shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardHeader className="border-b border-border">
-          <CardTitle className="text-lg font-medium text-foreground">Tarefas por Prioridade</CardTitle>
+      <Card className="h-96 macos-card hover:shadow-2xl transition-all duration-500 group">
+        <CardHeader className="border-b border-border/50">
+          <CardTitle className="text-lg font-semibold text-foreground bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            Tarefas por Prioridade
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={data} onClick={handleBarClick} className="cursor-pointer">
-              <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
-              <XAxis dataKey="priority" tick={{ fontSize: 12, fill: '#9ca3af' }} />
-              <YAxis tick={{ fontSize: 12, fill: '#9ca3af' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(99, 102, 241, 0.2)" />
+              <XAxis 
+                dataKey="priority" 
+                tick={{ fontSize: 12, fill: '#cbd5e1' }} 
+                stroke="#64748b"
+              />
+              <YAxis 
+                tick={{ fontSize: 12, fill: '#cbd5e1' }} 
+                stroke="#64748b"
+              />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(25, 25, 25, 0.95)',
-                  border: '1px solid rgba(156, 163, 175, 0.2)',
-                  borderRadius: '8px',
-                  backdropFilter: 'blur(10px)',
-                  color: '#e5e5e5'
+                  backgroundColor: 'rgba(15, 15, 20, 0.98)',
+                  border: '1px solid rgba(99, 102, 241, 0.3)',
+                  borderRadius: '12px',
+                  backdropFilter: 'blur(24px)',
+                  color: '#f8fafc',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                 }}
               />
               <Bar 
                 dataKey="quantidade" 
-                fill="#9ca3af" 
-                radius={[6, 6, 0, 0]}
+                fill="url(#barGradient)"
+                radius={[8, 8, 0, 0]}
                 onClick={handleBarClick}
-                className="cursor-pointer"
+                className="cursor-pointer transition-all duration-300 hover:opacity-80"
               />
+              <defs>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#6366f1" />
+                  <stop offset="100%" stopColor="#8b5cf6" />
+                </linearGradient>
+              </defs>
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

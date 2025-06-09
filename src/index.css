@@ -5,83 +5,83 @@
 
 @layer base {
   :root {
-    --background: 15 15 15;
-    --foreground: 200 200 200;
+    --background: 8 8 12;
+    --foreground: 248 250 252;
 
-    --card: 25 25 25;
-    --card-foreground: 200 200 200;
+    --card: 15 15 20;
+    --card-foreground: 241 245 249;
 
-    --popover: 25 25 25;
-    --popover-foreground: 200 200 200;
+    --popover: 15 15 20;
+    --popover-foreground: 241 245 249;
 
-    --primary: 156 163 175;
-    --primary-foreground: 15 15 15;
+    --primary: 99 102 241;
+    --primary-foreground: 248 250 252;
 
-    --secondary: 35 35 35;
-    --secondary-foreground: 180 180 180;
+    --secondary: 30 32 42;
+    --secondary-foreground: 226 232 240;
 
-    --muted: 30 30 30;
-    --muted-foreground: 120 120 120;
+    --muted: 20 22 28;
+    --muted-foreground: 148 163 184;
 
-    --accent: 40 40 40;
-    --accent-foreground: 180 180 180;
+    --accent: 45 50 65;
+    --accent-foreground: 226 232 240;
 
-    --destructive: 185 28 28;
-    --destructive-foreground: 255 255 255;
+    --destructive: 239 68 68;
+    --destructive-foreground: 248 250 252;
 
-    --border: 50 50 50;
-    --input: 45 45 45;
-    --ring: 156 163 175;
+    --border: 39 42 52;
+    --input: 30 32 42;
+    --ring: 99 102 241;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 20 20 20;
-    --sidebar-foreground: 180 180 180;
-    --sidebar-primary: 156 163 175;
-    --sidebar-primary-foreground: 15 15 15;
-    --sidebar-accent: 35 35 35;
-    --sidebar-accent-foreground: 180 180 180;
-    --sidebar-border: 50 50 50;
-    --sidebar-ring: 156 163 175;
+    --sidebar-background: 12 14 18;
+    --sidebar-foreground: 203 213 225;
+    --sidebar-primary: 99 102 241;
+    --sidebar-primary-foreground: 248 250 252;
+    --sidebar-accent: 30 32 42;
+    --sidebar-accent-foreground: 203 213 225;
+    --sidebar-border: 39 42 52;
+    --sidebar-ring: 99 102 241;
   }
 
   .dark {
-    --background: 10 10 10;
-    --foreground: 220 220 220;
+    --background: 5 5 8;
+    --foreground: 250 250 252;
 
-    --card: 20 20 20;
-    --card-foreground: 220 220 220;
+    --card: 12 12 16;
+    --card-foreground: 245 247 250;
 
-    --popover: 20 20 20;
-    --popover-foreground: 220 220 220;
+    --popover: 12 12 16;
+    --popover-foreground: 245 247 250;
 
-    --primary: 156 163 175;
-    --primary-foreground: 10 10 10;
+    --primary: 124 58 237;
+    --primary-foreground: 250 250 252;
 
-    --secondary: 30 30 30;
-    --secondary-foreground: 200 200 200;
+    --secondary: 25 27 35;
+    --secondary-foreground: 230 235 242;
 
-    --muted: 25 25 25;
-    --muted-foreground: 100 100 100;
+    --muted: 18 20 25;
+    --muted-foreground: 155 165 180;
 
-    --accent: 35 35 35;
-    --accent-foreground: 200 200 200;
+    --accent: 40 45 58;
+    --accent-foreground: 230 235 242;
 
-    --destructive: 220 38 38;
-    --destructive-foreground: 248 250 252;
+    --destructive: 248 113 113;
+    --destructive-foreground: 250 250 252;
 
-    --border: 45 45 45;
-    --input: 40 40 40;
-    --ring: 156 163 175;
+    --border: 35 38 45;
+    --input: 25 27 35;
+    --ring: 124 58 237;
 
-    --sidebar-background: 15 15 15;
-    --sidebar-foreground: 200 200 200;
-    --sidebar-primary: 156 163 175;
-    --sidebar-primary-foreground: 15 15 15;
-    --sidebar-accent: 30 30 30;
-    --sidebar-accent-foreground: 200 200 200;
-    --sidebar-border: 45 45 45;
-    --sidebar-ring: 156 163 175;
+    --sidebar-background: 8 10 14;
+    --sidebar-foreground: 210 218 230;
+    --sidebar-primary: 124 58 237;
+    --sidebar-primary-foreground: 250 250 252;
+    --sidebar-accent: 25 27 35;
+    --sidebar-accent-foreground: 210 218 230;
+    --sidebar-border: 35 38 45;
+    --sidebar-ring: 124 58 237;
   }
 }
 
@@ -96,8 +96,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: 
-      radial-gradient(circle at 1px 1px, rgba(156, 163, 175, 0.1) 1px, transparent 0);
-    background-size: 20px 20px;
+      radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.08) 1px, transparent 0);
+    background-size: 32px 32px;
   }
 
   /* macOS-style scrollbars */
@@ -111,57 +111,66 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.3);
+    background: rgba(99, 102, 241, 0.3);
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(156, 163, 175, 0.5);
+    background: rgba(99, 102, 241, 0.5);
   }
 
-  /* macOS-style glass effect */
+  /* Enhanced glass effect */
   .glass-effect {
-    background: rgba(25, 25, 25, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(156, 163, 175, 0.1);
+    background: rgba(15, 15, 20, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(99, 102, 241, 0.15);
   }
 
-  /* macOS-style buttons */
+  /* Enhanced macOS-style buttons */
   .macos-button {
     @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
-    background: linear-gradient(to bottom, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.8));
-    border: 1px solid rgba(156, 163, 175, 0.1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, rgba(45, 50, 65, 0.95), rgba(30, 32, 42, 0.9));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 
   .macos-button:hover {
-    background: linear-gradient(to bottom, rgba(45, 45, 45, 1), rgba(35, 35, 35, 0.9));
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(to bottom, rgba(55, 60, 75, 1), rgba(40, 42, 52, 0.95));
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);
+    transform: translateY(-1px);
   }
 
   .macos-button:active {
-    background: linear-gradient(to bottom, rgba(25, 25, 25, 0.9), rgba(20, 20, 20, 0.8));
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom, rgba(25, 27, 35, 0.95), rgba(20, 22, 28, 0.9));
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(0);
   }
 
-  /* macOS-style cards */
+  /* Enhanced macOS-style cards */
   .macos-card {
     @apply rounded-xl border border-border shadow-lg;
-    background: rgba(25, 25, 25, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(15, 15, 20, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(99, 102, 241, 0.1);
   }
 
-  /* macOS-style input fields */
+  /* Enhanced macOS-style input fields */
   .macos-input {
     @apply rounded-lg border border-border px-3 py-2 bg-input backdrop-blur-sm;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   .macos-input:focus {
     @apply ring-2 ring-primary/50 border-primary;
-    background: rgba(45, 45, 45, 0.95);
+    background: rgba(40, 45, 58, 0.98);
+    box-shadow: 
+      inset 0 1px 3px rgba(0, 0, 0, 0.2),
+      0 0 0 3px rgba(99, 102, 241, 0.1);
   }
 }
 

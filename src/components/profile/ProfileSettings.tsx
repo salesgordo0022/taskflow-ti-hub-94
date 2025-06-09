@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,11 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { User, Mail, Phone, Shield, Bell, Globe } from 'lucide-react';
+import { User, Mail, Phone, Shield, Bell, Globe, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import PasswordChangeModal from './PasswordChangeModal';
 
 const ProfileSettings = () => {
   const { toast } = useToast();
+  const { logout } = useAuth();
   const [profile, setProfile] = useState({
     name: 'Carlos Silva',
     email: 'carlos@empresa.com',
@@ -26,6 +28,14 @@ const ProfileSettings = () => {
     toast({
       title: "Perfil atualizado",
       description: "Suas configurações foram salvas com sucesso.",
+    });
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logout realizado",
+      description: "Você foi desconectado do sistema.",
     });
   };
 
@@ -152,7 +162,7 @@ const ProfileSettings = () => {
                 <h3 className="font-medium">Alterar Senha</h3>
                 <p className="text-sm text-gray-500">Atualize sua senha de acesso</p>
               </div>
-              <Button variant="outline">Alterar Senha</Button>
+              <PasswordChangeModal />
             </div>
             
             <Separator />
@@ -163,6 +173,19 @@ const ProfileSettings = () => {
                 <p className="text-sm text-gray-500">Adicione uma camada extra de segurança</p>
               </div>
               <Button variant="outline">Configurar 2FA</Button>
+            </div>
+
+            <Separator />
+            
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-medium">Sair do Sistema</h3>
+                <p className="text-sm text-gray-500">Encerrar sua sessão atual</p>
+              </div>
+              <Button variant="destructive" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sair
+              </Button>
             </div>
           </CardContent>
         </Card>

@@ -9,6 +9,8 @@ import {
   Settings
 } from 'lucide-react';
 
+import { useAuth } from '@/contexts/AuthContext';
+import LoginScreen from '@/components/auth/LoginScreen';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import MetricCard from '@/components/dashboard/MetricCard';
@@ -22,15 +24,21 @@ import KanbanBoard from '@/components/tasks/KanbanBoard';
 import IncidentCard from '@/components/incidents/IncidentCard';
 import CalendarView from '@/components/calendar/CalendarView';
 import ProfileSettings from '@/components/profile/ProfileSettings';
+import NotificationsPanel from '@/components/notifications/NotificationsPanel';
 
 import { mockCompanies, mockSystems, mockTasks, mockIncidents } from '@/utils/mockData';
 import { Task, Company, System } from '@/types';
 
 const Index = () => {
+  const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [tasks, setTasks] = useState(mockTasks);
   const [companies, setCompanies] = useState(mockCompanies);
   const [systems, setSystems] = useState(mockSystems);
+
+  if (!isAuthenticated) {
+    return <LoginScreen />;
+  }
 
   const handleTaskStatusChange = (taskId: string, status: Task['status']) => {
     setTasks(prev => prev.map(task => 
@@ -170,6 +178,9 @@ const Index = () => {
             </div>
           </div>
         );
+
+      case 'notifications':
+        return <NotificationsPanel />;
 
       case 'companies':
         return (
@@ -364,7 +375,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
       <div className="flex-1 flex flex-col">
-        <Header />
+        <Header onTabChange={setActiveTab} />
         <main className="flex-1 p-6">
           {renderContent()}
         </main>

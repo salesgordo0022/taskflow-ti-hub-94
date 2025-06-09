@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { 
   LayoutDashboard, 
@@ -12,7 +11,8 @@ import {
   ChevronRight,
   Brain,
   MessageSquare,
-  Settings
+  Settings,
+  Bell
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -28,6 +28,7 @@ const menuItems = [
   { id: 'systems', label: 'Sistemas', icon: Server },
   { id: 'tasks', label: 'Tarefas', icon: CheckSquare },
   { id: 'incidents', label: 'Incidentes', icon: AlertTriangle },
+  { id: 'notifications', label: 'Notificações', icon: Bell },
   { id: 'mindmap', label: 'Mapa Mental', icon: Brain },
   { id: 'slack', label: 'Slack', icon: MessageSquare },
   { id: 'reports', label: 'Relatórios', icon: BarChart3 },

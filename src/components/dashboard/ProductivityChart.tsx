@@ -33,30 +33,41 @@ const ProductivityChart = () => {
 
   return (
     <>
-      <Card className="h-96 bg-white/95 backdrop-blur-xl border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
-        <CardHeader className="border-b border-gray-100/50">
-          <CardTitle className="text-lg font-medium text-gray-900">Produtividade Semanal</CardTitle>
+      <Card className="h-96 macos-card hover:shadow-2xl transition-all duration-500 group">
+        <CardHeader className="border-b border-border/50">
+          <CardTitle className="text-lg font-semibold text-white bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            Produtividade Semanal
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={data} onClick={handleLineClick} className="cursor-pointer">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="dia" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(99, 102, 241, 0.3)" />
+              <XAxis 
+                dataKey="dia" 
+                tick={{ fontSize: 12, fill: '#ffffff' }} 
+                stroke="#ffffff"
+              />
+              <YAxis 
+                tick={{ fontSize: 12, fill: '#ffffff' }} 
+                stroke="#ffffff"
+              />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  border: '1px solid rgba(0, 0, 0, 0.1)',
-                  borderRadius: '8px',
-                  backdropFilter: 'blur(10px)'
+                  backgroundColor: 'rgba(10, 10, 10, 0.98)',
+                  border: '1px solid rgba(99, 102, 241, 0.3)',
+                  borderRadius: '12px',
+                  backdropFilter: 'blur(24px)',
+                  color: '#ffffff',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)'
                 }}
               />
               <Line 
                 type="monotone" 
                 dataKey="concluidas" 
-                stroke="#3b82f6" 
+                stroke="#6366f1" 
                 strokeWidth={3}
-                dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                dot={{ fill: '#6366f1', strokeWidth: 2, r: 4 }}
                 onClick={handleLineClick}
                 className="cursor-pointer"
               />

@@ -35,12 +35,12 @@ const MetricCard = ({
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex-1">
-            <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-            <p className="text-3xl font-bold text-foreground bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <p className="text-sm font-medium text-white/70 mb-1">{title}</p>
+            <p className="text-3xl font-bold text-white bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
               {value}
             </p>
             {subtitle && (
-              <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>
+              <p className="text-sm text-white/70 mt-1">{subtitle}</p>
             )}
             {trend && (
               <div className="flex items-center mt-3">
@@ -52,7 +52,7 @@ const MetricCard = ({
                 )}>
                   {trend.isPositive ? '+' : ''}{trend.value}%
                 </span>
-                <span className="text-xs text-muted-foreground ml-2">vs. mês anterior</span>
+                <span className="text-xs text-white/70 ml-2">vs. mês anterior</span>
               </div>
             )}
           </div>

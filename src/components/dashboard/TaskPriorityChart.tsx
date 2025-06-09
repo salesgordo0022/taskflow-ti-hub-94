@@ -28,7 +28,7 @@ const TaskPriorityChart = () => {
     <>
       <Card className="h-96 macos-card hover:shadow-2xl transition-all duration-500 group">
         <CardHeader className="border-b border-border/50">
-          <CardTitle className="text-lg font-semibold text-white bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <CardTitle className="text-lg font-semibold text-foreground bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
             Tarefas por Prioridade
           </CardTitle>
         </CardHeader>
@@ -38,21 +38,21 @@ const TaskPriorityChart = () => {
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(99, 102, 241, 0.3)" />
               <XAxis 
                 dataKey="priority" 
-                tick={{ fontSize: 12, fill: '#ffffff' }} 
-                stroke="#ffffff"
+                tick={{ fontSize: 12, fill: '#f3f4f6' }} 
+                stroke="#f3f4f6"
               />
               <YAxis 
-                tick={{ fontSize: 12, fill: '#ffffff' }} 
-                stroke="#ffffff"
+                tick={{ fontSize: 12, fill: '#f3f4f6' }} 
+                stroke="#f3f4f6"
               />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(10, 10, 10, 0.98)',
+                  backgroundColor: 'rgba(31, 41, 55, 0.98)',
                   border: '1px solid rgba(99, 102, 241, 0.3)',
                   borderRadius: '12px',
                   backdropFilter: 'blur(24px)',
-                  color: '#ffffff',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)'
+                  color: '#f3f4f6',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
                 }}
               />
               <Bar 

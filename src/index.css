@@ -5,82 +5,82 @@
 
 @layer base {
   :root {
-    --background: 0 0 0;
-    --foreground: 255 255 255;
+    --background: 17 24 39;
+    --foreground: 243 244 246;
 
-    --card: 10 10 10;
-    --card-foreground: 255 255 255;
+    --card: 31 41 55;
+    --card-foreground: 243 244 246;
 
-    --popover: 10 10 10;
-    --popover-foreground: 255 255 255;
+    --popover: 31 41 55;
+    --popover-foreground: 243 244 246;
 
     --primary: 99 102 241;
     --primary-foreground: 255 255 255;
 
-    --secondary: 24 24 27;
-    --secondary-foreground: 255 255 255;
+    --secondary: 55 65 81;
+    --secondary-foreground: 243 244 246;
 
-    --muted: 39 39 42;
-    --muted-foreground: 161 161 170;
+    --muted: 75 85 99;
+    --muted-foreground: 156 163 175;
 
-    --accent: 39 39 42;
-    --accent-foreground: 255 255 255;
+    --accent: 55 65 81;
+    --accent-foreground: 243 244 246;
 
     --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --border: 39 39 42;
-    --input: 24 24 27;
+    --border: 75 85 99;
+    --input: 55 65 81;
     --ring: 99 102 241;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0 0;
-    --sidebar-foreground: 255 255 255;
+    --sidebar-background: 17 24 39;
+    --sidebar-foreground: 243 244 246;
     --sidebar-primary: 99 102 241;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 24 24 27;
-    --sidebar-accent-foreground: 255 255 255;
-    --sidebar-border: 39 39 42;
+    --sidebar-accent: 55 65 81;
+    --sidebar-accent-foreground: 243 244 246;
+    --sidebar-border: 75 85 99;
     --sidebar-ring: 99 102 241;
   }
 
   .dark {
-    --background: 0 0 0;
-    --foreground: 255 255 255;
+    --background: 17 24 39;
+    --foreground: 243 244 246;
 
-    --card: 10 10 10;
-    --card-foreground: 255 255 255;
+    --card: 31 41 55;
+    --card-foreground: 243 244 246;
 
-    --popover: 10 10 10;
-    --popover-foreground: 255 255 255;
+    --popover: 31 41 55;
+    --popover-foreground: 243 244 246;
 
     --primary: 99 102 241;
     --primary-foreground: 255 255 255;
 
-    --secondary: 24 24 27;
-    --secondary-foreground: 255 255 255;
+    --secondary: 55 65 81;
+    --secondary-foreground: 243 244 246;
 
-    --muted: 39 39 42;
-    --muted-foreground: 161 161 170;
+    --muted: 75 85 99;
+    --muted-foreground: 156 163 175;
 
-    --accent: 39 39 42;
-    --accent-foreground: 255 255 255;
+    --accent: 55 65 81;
+    --accent-foreground: 243 244 246;
 
     --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --border: 39 39 42;
-    --input: 24 24 27;
+    --border: 75 85 99;
+    --input: 55 65 81;
     --ring: 99 102 241;
 
-    --sidebar-background: 0 0 0;
-    --sidebar-foreground: 255 255 255;
+    --sidebar-background: 17 24 39;
+    --sidebar-foreground: 243 244 246;
     --sidebar-primary: 99 102 241;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 24 24 27;
-    --sidebar-accent-foreground: 255 255 255;
-    --sidebar-border: 39 39 42;
+    --sidebar-accent: 55 65 81;
+    --sidebar-accent-foreground: 243 244 246;
+    --sidebar-border: 75 85 99;
     --sidebar-ring: 99 102 241;
   }
 }
@@ -95,7 +95,6 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: black;
   }
 
   /* macOS-style scrollbars */
@@ -119,7 +118,7 @@
 
   /* Enhanced glass effect */
   .glass-effect {
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(31, 41, 55, 0.9);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(99, 102, 241, 0.2);
@@ -127,47 +126,46 @@
 
   /* Enhanced macOS-style buttons */
   .macos-button {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 text-white;
-    background: linear-gradient(to bottom, rgba(39, 39, 42, 0.95), rgba(24, 24, 27, 0.9));
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 text-foreground;
+    background: linear-gradient(to bottom, rgba(55, 65, 81, 0.95), rgba(31, 41, 55, 0.9));
     border: 1px solid rgba(99, 102, 241, 0.3);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   .macos-button:hover {
-    background: linear-gradient(to bottom, rgba(55, 55, 58, 1), rgba(39, 39, 42, 0.95));
+    background: linear-gradient(to bottom, rgba(75, 85, 99, 1), rgba(55, 65, 81, 0.95));
     box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
     transform: translateY(-1px);
   }
 
   .macos-button:active {
-    background: linear-gradient(to bottom, rgba(24, 24, 27, 0.95), rgba(10, 10, 10, 0.9));
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(to bottom, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.9));
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
     transform: translateY(0);
   }
 
   /* Enhanced macOS-style cards */
   .macos-card {
-    @apply rounded-xl border border-border shadow-lg;
-    background: rgba(10, 10, 10, 0.98);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    @apply rounded-xl border border-border shadow-lg bg-card;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(99, 102, 241, 0.2);
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(99, 102, 241, 0.1);
   }
 
   /* Enhanced macOS-style input fields */
   .macos-input {
-    @apply rounded-lg border border-border px-3 py-2 bg-input backdrop-blur-sm text-white;
+    @apply rounded-lg border border-border px-3 py-2 bg-input backdrop-blur-sm text-foreground;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   .macos-input:focus {
     @apply ring-2 ring-primary/50 border-primary;
-    background: rgba(39, 39, 42, 0.98);
+    background: rgba(75, 85, 99, 0.98);
     box-shadow: 
-      inset 0 1px 3px rgba(0, 0, 0, 0.3),
+      inset 0 1px 3px rgba(0, 0, 0, 0.2),
       0 0 0 3px rgba(99, 102, 241, 0.2);
   }
 }

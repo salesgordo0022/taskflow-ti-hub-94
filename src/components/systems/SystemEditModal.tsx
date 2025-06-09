@@ -52,8 +52,8 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="flex-1">
-          <Edit className="h-4 w-4 mr-2" />
+        <Button variant="outline" size="sm" className="flex-1 macos-button">
+          <Edit className="h-4 w-4 mr-2 macos-icon" />
           Editar
         </Button>
       </DialogTrigger>
@@ -69,6 +69,7 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
                 id="name"
                 value={editedSystem.name}
                 onChange={(e) => setEditedSystem({...editedSystem, name: e.target.value})}
+                className="bg-gray-800 border-gray-600 text-white"
               />
             </div>
             <div className="space-y-2">
@@ -77,6 +78,7 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
                 id="version"
                 value={editedSystem.version}
                 onChange={(e) => setEditedSystem({...editedSystem, version: e.target.value})}
+                className="bg-gray-800 border-gray-600 text-white"
               />
             </div>
           </div>
@@ -87,6 +89,7 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
               id="description"
               value={editedSystem.description}
               onChange={(e) => setEditedSystem({...editedSystem, description: e.target.value})}
+              className="bg-gray-800 border-gray-600 text-white"
             />
           </div>
 
@@ -97,12 +100,13 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
                 id="responsible"
                 value={editedSystem.responsible}
                 onChange={(e) => setEditedSystem({...editedSystem, responsible: e.target.value})}
+                className="bg-gray-800 border-gray-600 text-white"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select value={editedSystem.status} onValueChange={(value: any) => setEditedSystem({...editedSystem, status: value})}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -122,13 +126,14 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
               placeholder="https://sistema.exemplo.com"
               value={editedSystem.systemUrl || ''}
               onChange={(e) => setEditedSystem({...editedSystem, systemUrl: e.target.value})}
+              className="bg-gray-800 border-gray-600 text-white"
             />
           </div>
 
           <div className="flex items-center justify-between">
             <div>
               <Label>Sistema Implementado</Label>
-              <p className="text-sm text-gray-500">Marque se o sistema já foi implementado</p>
+              <p className="text-sm text-gray-400">Marque se o sistema já foi implementado</p>
             </div>
             <Switch
               checked={editedSystem.isImplemented}
@@ -144,9 +149,10 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
                 value={newAccessUser}
                 onChange={(e) => setNewAccessUser(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && addAccessUser()}
+                className="bg-gray-800 border-gray-600 text-white"
               />
-              <Button onClick={addAccessUser} size="sm">
-                <Plus className="h-4 w-4" />
+              <Button onClick={addAccessUser} size="sm" className="macos-button">
+                <Plus className="h-4 w-4 macos-icon" />
               </Button>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -155,7 +161,7 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
                   {user}
                   <button
                     onClick={() => removeAccessUser(user)}
-                    className="ml-2 text-red-500 hover:text-red-700"
+                    className="ml-2 text-red-500 hover:text-red-700 macos-icon"
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -165,10 +171,10 @@ const SystemEditModal = ({ system, onSave }: SystemEditModalProps) => {
           </div>
 
           <div className="flex justify-end space-x-3">
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
+            <Button variant="outline" onClick={() => setIsOpen(false)} className="macos-button">
               Cancelar
             </Button>
-            <Button onClick={handleSave}>
+            <Button onClick={handleSave} className="macos-button">
               Salvar Alterações
             </Button>
           </div>

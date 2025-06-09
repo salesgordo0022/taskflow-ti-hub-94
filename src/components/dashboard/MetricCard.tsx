@@ -31,7 +31,7 @@ const MetricCard = ({
   };
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-500 sad-fade-in card-dark sad-glow">
+    <Card className="hover:shadow-lg transition-all duration-500 sad-fade-in card-dark sad-glow macos-card">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex-1">
@@ -57,7 +57,7 @@ const MetricCard = ({
             )}
           </div>
           <div className={cn(
-            "flex items-center justify-center w-12 h-12 rounded-lg opacity-80",
+            "flex items-center justify-center w-12 h-12 rounded-lg opacity-80 macos-icon",
             colorClasses[color]
           )}>
             <Icon className="h-6 w-6" />

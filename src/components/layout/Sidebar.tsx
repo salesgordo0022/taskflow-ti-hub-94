@@ -55,7 +55,7 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
               variant="ghost"
               size="sm"
               onClick={() => setCollapsed(!collapsed)}
-              className="text-white hover:bg-gray-800"
+              className="text-white hover:bg-gray-800 macos-icon"
             >
               {collapsed ? (
                 <ChevronRight className="h-4 w-4" />
@@ -76,13 +76,13 @@ const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
                 key={item.id}
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start mb-1 text-white hover:text-white hover:bg-gray-800",
+                  "w-full justify-start mb-1 text-white hover:text-white hover:bg-gray-800 macos-button",
                   isActive && "bg-blue-600 text-white hover:bg-blue-500",
                   collapsed && "px-2"
                 )}
                 onClick={() => onTabChange(item.id)}
               >
-                <Icon className={cn("h-5 w-5", !collapsed && "mr-3")} />
+                <Icon className={cn("h-5 w-5 macos-icon", !collapsed && "mr-3")} />
                 {!collapsed && item.label}
               </Button>
             );

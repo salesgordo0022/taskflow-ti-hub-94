@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { Bell, Search, Settings, User } from 'lucide-react';
+import { Bell, Search, Settings, User, Edit2, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,7 +16,7 @@ import {
 } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import NotificationsPanel from '@/components/notifications/NotificationsPanel';
+import { cn } from '@/lib/utils';
 
 interface HeaderProps {
   onTabChange: (tab: string) => void;
@@ -24,22 +25,69 @@ interface HeaderProps {
 const Header = ({ onTabChange }: HeaderProps) => {
   const { logout } = useAuth();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [systemTitle, setSystemTitle] = useState('TaskFlow TI Hub');
+  const [tempTitle, setTempTitle] = useState(systemTitle);
+
+  const handleTitleEdit = () => {
+    setIsEditingTitle(true);
+    setTempTitle(systemTitle);
+  };
+
+  const handleTitleSave = () => {
+    setSystemTitle(tempTitle);
+    setIsEditingTitle(false);
+  };
+
+  const handleTitleCancel = () => {
+    setTempTitle(systemTitle);
+    setIsEditingTitle(false);
+  };
 
   return (
     <header className="h-16 border-b bg-black/80 backdrop-blur-sm sticky top-0 z-40">
       <div className="flex items-center justify-between h-full px-6">
         <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-            TaskFlow TI Hub
-          </h1>
+          {isEditingTitle ? (
+            <div className="flex items-center space-x-2">
+              <Input
+                value={tempTitle}
+                onChange={(e) => setTempTitle(e.target.value)}
+                className="text-xl font-bold bg-gray-800 border-gray-600 text-white"
+                onKeyPress={(e) => e.key === 'Enter' && handleTitleSave()}
+                autoFocus
+              />
+              <Button
+                size="sm"
+                onClick={handleTitleSave}
+                className="macos-button"
+              >
+                <Check className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2 group">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                {systemTitle}
+              </h1>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleTitleEdit}
+                className="opacity-0 group-hover:opacity-100 transition-opacity macos-icon"
+              >
+                <Edit2 className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="flex-1 max-w-md mx-8">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 macos-icon" />
             <Input
               placeholder="Buscar tarefas, sistemas ou empresas..."
-              className="pl-10 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+              className="pl-10 bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:bg-gray-700 transition-colors"
             />
           </div>
         </div>
@@ -47,7 +95,7 @@ const Header = ({ onTabChange }: HeaderProps) => {
         <div className="flex items-center space-x-3">
           <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="relative">
+              <Button variant="ghost" size="sm" className="relative macos-icon">
                 <Bell className="h-5 w-5" />
                 <Badge 
                   variant="destructive" 
@@ -89,7 +137,7 @@ const Header = ({ onTabChange }: HeaderProps) => {
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full"
+                    className="w-full macos-button"
                     onClick={() => {
                       onTabChange('notifications');
                       setNotificationsOpen(false);
@@ -106,13 +154,14 @@ const Header = ({ onTabChange }: HeaderProps) => {
             variant="ghost" 
             size="sm"
             onClick={() => onTabChange('settings')}
+            className="macos-icon"
           >
             <Settings className="h-5 w-5" />
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="macos-icon">
                 <User className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>

@@ -33,7 +33,7 @@ const ProductivityChart = () => {
 
   return (
     <>
-      <Card className="h-96">
+      <Card className="h-96 macos-card">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">
             Produtividade Semanal
@@ -41,7 +41,7 @@ const ProductivityChart = () => {
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={data} onClick={handleLineClick} className="cursor-pointer">
+            <LineChart data={data} onClick={handleLineClick} className="cursor-pointer macos-chart">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="dia" 

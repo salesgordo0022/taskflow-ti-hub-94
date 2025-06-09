@@ -136,6 +136,51 @@
   }
 }
 
+/* macOS-style animations */
+@keyframes macos-bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes macos-hover {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    transform: scale(1.05) translateY(-2px);
+  }
+}
+
+@keyframes macos-click {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes chart-entrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
 .rain-container {
   position: fixed;
   top: 0;
@@ -169,4 +214,56 @@
   background: rgba(20, 20, 25, 0.9) !important;
   border: 1px solid rgba(55, 55, 60, 0.5) !important;
   backdrop-filter: blur(10px);
+}
+
+/* macOS-style icon animations */
+.macos-icon {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+}
+
+.macos-icon:hover {
+  animation: macos-hover 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  filter: brightness(1.2);
+}
+
+.macos-icon:active {
+  animation: macos-click 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* macOS-style chart animations */
+.macos-chart {
+  animation: chart-entrance 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.macos-chart:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+/* macOS-style button animations */
+.macos-button {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+}
+
+.macos-button:hover {
+  transform: scale(1.05) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.macos-button:active {
+  transform: scale(0.98);
+}
+
+/* macOS-style card animations */
+.macos-card {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+}
+
+.macos-card:hover {
+  transform: scale(1.02) translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }

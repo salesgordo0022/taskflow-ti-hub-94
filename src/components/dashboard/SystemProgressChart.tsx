@@ -26,7 +26,7 @@ const SystemProgressChart = () => {
 
   return (
     <>
-      <Card className="h-96 sad-fade-in card-dark sad-glow">
+      <Card className="h-96 sad-fade-in card-dark sad-glow macos-card">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-white">
             Status dos Sistemas
@@ -34,7 +34,7 @@ const SystemProgressChart = () => {
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
-            <PieChart onClick={handlePieClick} className="cursor-pointer">
+            <PieChart onClick={handlePieClick} className="cursor-pointer macos-chart">
               <Pie
                 data={data}
                 cx="50%"

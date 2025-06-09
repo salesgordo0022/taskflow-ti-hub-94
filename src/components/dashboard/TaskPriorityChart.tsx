@@ -26,7 +26,7 @@ const TaskPriorityChart = () => {
 
   return (
     <>
-      <Card className="h-96">
+      <Card className="h-96 macos-card">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">
             Tarefas por Prioridade
@@ -34,7 +34,7 @@ const TaskPriorityChart = () => {
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={data} onClick={handleBarClick} className="cursor-pointer">
+            <BarChart data={data} onClick={handleBarClick} className="cursor-pointer macos-chart">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="priority" 

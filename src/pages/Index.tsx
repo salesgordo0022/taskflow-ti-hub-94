@@ -20,6 +20,7 @@ import ProductivityChart from '@/components/dashboard/ProductivityChart';
 import CompanyCard from '@/components/companies/CompanyCard';
 import CompanyCreateModal from '@/components/companies/CompanyCreateModal';
 import SystemCard from '@/components/systems/SystemCard';
+import SystemCreateModal from '@/components/systems/SystemCreateModal';
 import KanbanBoard from '@/components/tasks/KanbanBoard';
 import IncidentCard from '@/components/incidents/IncidentCard';
 import CalendarView from '@/components/calendar/CalendarView';
@@ -66,6 +67,10 @@ const Index = () => {
     setSystems(prev => prev.map(system => 
       system.id === updatedSystem.id ? updatedSystem : system
     ));
+  };
+
+  const handleSystemCreate = (newSystem: System) => {
+    setSystems(prev => [...prev, newSystem]);
   };
 
   const getCompanyNames = (companyIds: string[]) => {

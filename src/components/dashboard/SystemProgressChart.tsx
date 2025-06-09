@@ -26,9 +26,9 @@ const SystemProgressChart = () => {
 
   return (
     <>
-      <Card className="h-96 macos-card hover:shadow-2xl transition-all duration-500 group">
-        <CardHeader className="border-b border-border/50">
-          <CardTitle className="text-lg font-semibold text-foreground bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+      <Card className="h-96">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold">
             Status dos Sistemas
           </CardTitle>
         </CardHeader>
@@ -44,31 +44,24 @@ const SystemProgressChart = () => {
                 paddingAngle={5}
                 dataKey="value"
                 onClick={handlePieClick}
-                className="cursor-pointer transition-all duration-300 hover:drop-shadow-lg"
+                className="cursor-pointer"
               >
                 {data.map((entry, index) => (
                   <Cell 
                     key={`cell-${index}`} 
                     fill={entry.color}
-                    className="hover:opacity-80 transition-opacity duration-200"
                   />
                 ))}
               </Pie>
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(31, 41, 55, 0.98)',
-                  border: '1px solid rgba(99, 102, 241, 0.3)',
-                  borderRadius: '12px',
-                  backdropFilter: 'blur(24px)',
-                  color: '#f3f4f6',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '8px',
+                  color: 'hsl(var(--foreground))'
                 }}
               />
-              <Legend 
-                wrapperStyle={{
-                  color: '#f3f4f6'
-                }}
-              />
+              <Legend />
             </PieChart>
           </ResponsiveContainer>
         </CardContent>

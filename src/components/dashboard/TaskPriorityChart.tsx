@@ -26,48 +26,40 @@ const TaskPriorityChart = () => {
 
   return (
     <>
-      <Card className="h-96 macos-card hover:shadow-2xl transition-all duration-500 group">
-        <CardHeader className="border-b border-border/50">
-          <CardTitle className="text-lg font-semibold text-foreground bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+      <Card className="h-96">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold">
             Tarefas por Prioridade
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={data} onClick={handleBarClick} className="cursor-pointer">
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(99, 102, 241, 0.3)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="priority" 
-                tick={{ fontSize: 12, fill: '#f3f4f6' }} 
-                stroke="#f3f4f6"
+                tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} 
+                stroke="hsl(var(--foreground))"
               />
               <YAxis 
-                tick={{ fontSize: 12, fill: '#f3f4f6' }} 
-                stroke="#f3f4f6"
+                tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} 
+                stroke="hsl(var(--foreground))"
               />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: 'rgba(31, 41, 55, 0.98)',
-                  border: '1px solid rgba(99, 102, 241, 0.3)',
-                  borderRadius: '12px',
-                  backdropFilter: 'blur(24px)',
-                  color: '#f3f4f6',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '8px',
+                  color: 'hsl(var(--foreground))'
                 }}
               />
               <Bar 
                 dataKey="quantidade" 
-                fill="url(#barGradient)"
-                radius={[8, 8, 0, 0]}
+                fill="#6366f1"
+                radius={[4, 4, 0, 0]}
                 onClick={handleBarClick}
-                className="cursor-pointer transition-all duration-300 hover:opacity-80"
+                className="cursor-pointer"
               />
-              <defs>
-                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#6366f1" />
-                  <stop offset="100%" stopColor="#8b5cf6" />
-                </linearGradient>
-              </defs>
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

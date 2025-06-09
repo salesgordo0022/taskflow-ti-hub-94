@@ -24,19 +24,19 @@ const MetricCard = ({
   color = 'blue' 
 }: MetricCardProps) => {
   const colorClasses = {
-    blue: 'border-indigo-500/30 bg-gradient-to-br from-indigo-600/20 to-blue-600/10 text-indigo-400',
-    green: 'border-emerald-500/30 bg-gradient-to-br from-emerald-600/20 to-green-600/10 text-emerald-400',
-    yellow: 'border-amber-500/30 bg-gradient-to-br from-amber-600/20 to-yellow-600/10 text-amber-400',
-    red: 'border-red-500/30 bg-gradient-to-br from-red-600/20 to-pink-600/10 text-red-400'
+    blue: 'text-blue-500',
+    green: 'text-green-500',
+    yellow: 'text-yellow-500',
+    red: 'text-red-500'
   };
 
   return (
-    <Card className="macos-card hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 group">
+    <Card className="hover:shadow-lg transition-shadow">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex-1">
             <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-            <p className="text-3xl font-bold text-foreground bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <p className="text-3xl font-bold text-foreground">
               {value}
             </p>
             {subtitle && (
@@ -45,10 +45,10 @@ const MetricCard = ({
             {trend && (
               <div className="flex items-center mt-3">
                 <span className={cn(
-                  "text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm",
+                  "text-xs font-medium px-2 py-1 rounded",
                   trend.isPositive 
-                    ? "text-emerald-400 bg-gradient-to-r from-emerald-600/30 to-green-600/20 border border-emerald-500/30" 
-                    : "text-red-400 bg-gradient-to-r from-red-600/30 to-pink-600/20 border border-red-500/30"
+                    ? "text-green-600 bg-green-100" 
+                    : "text-red-600 bg-red-100"
                 )}>
                   {trend.isPositive ? '+' : ''}{trend.value}%
                 </span>
@@ -57,10 +57,10 @@ const MetricCard = ({
             )}
           </div>
           <div className={cn(
-            "flex items-center justify-center w-14 h-14 rounded-xl border backdrop-blur-sm transition-all duration-300 group-hover:scale-110",
+            "flex items-center justify-center w-12 h-12 rounded-lg",
             colorClasses[color]
           )}>
-            <Icon className="h-7 w-7" />
+            <Icon className="h-6 w-6" />
           </div>
         </div>
       </CardContent>

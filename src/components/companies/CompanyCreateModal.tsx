@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -23,6 +22,8 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
     cnpj: '',
     responsible: '',
     responsiblePerson: '',
+    email: '',
+    phone: '',
     segment: 'comercio',
     regime: 'simples',
     level: 'medio',
@@ -58,6 +59,8 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
       cnpj: '',
       responsible: '',
       responsiblePerson: '',
+      email: '',
+      phone: '',
       segment: 'comercio',
       regime: 'simples',
       level: 'medio',
@@ -118,6 +121,26 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
                   id="responsible"
                   value={newCompany.responsiblePerson}
                   onChange={(e) => setNewCompany({...newCompany, responsiblePerson: e.target.value, responsible: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={newCompany.email}
+                  onChange={(e) => setNewCompany({...newCompany, email: e.target.value})}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="phone">Telefone</Label>
+                <Input
+                  id="phone"
+                  value={newCompany.phone}
+                  onChange={(e) => setNewCompany({...newCompany, phone: e.target.value})}
                 />
               </div>
             </div>

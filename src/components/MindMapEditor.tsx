@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from 'react';
 import ReactFlow, {
   MiniMap,
@@ -158,7 +159,7 @@ const MindMapEditor: React.FC<MindMapEditorProps> = ({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onPaneDoubleClick={handlePaneDoubleClick}
+        onDoubleClick={handlePaneDoubleClick}
         onEdgeDoubleClick={handleEdgeDoubleClick}
         fitView
         nodeTypes={nodeTypes}
@@ -172,4 +173,4 @@ const MindMapEditor: React.FC<MindMapEditorProps> = ({
   );
 };
 
-export default MindMapEditor; 
+export default MindMapEditor;

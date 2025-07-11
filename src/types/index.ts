@@ -6,9 +6,16 @@ export interface Company {
   email: string;
   phone: string;
   createdAt: Date;
+  // Novos campos para controle contábil
+  segment: 'comercio' | 'industria' | 'servicos' | 'rural' | 'outros';
+  regime: 'simples' | 'presumido' | 'real' | 'mei';
+  level: 'facil' | 'medio' | 'dificil';
+  // Automações específicas
   hasNotaEntrada: boolean;
   hasNotaSaida: boolean;
   hasCupom: boolean;
+  hasApuracao: boolean;
+  hasEnvioDocumentos: boolean;
   isAutomated: boolean;
   responsiblePerson: string;
 }
@@ -66,7 +73,7 @@ export interface Incident {
   id: string;
   title: string;
   description: string;
-  systemId: string;
+  systemIds: string[]; // agora pode ser vários sistemas
   companyId: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   status: 'open' | 'in_progress' | 'resolved';

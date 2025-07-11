@@ -137,7 +137,7 @@ const SystemCreateModal = ({ onSave }: SystemCreateModalProps) => {
             </div>
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select value={newSystem.status} onValueChange={(value: any) => setNewSystem({...newSystem, status: value})}>
+              <Select value={newSystem.status} onValueChange={(value: System['status']) => setNewSystem({...newSystem, status: value})}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

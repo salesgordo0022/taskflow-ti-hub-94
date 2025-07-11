@@ -8,80 +8,90 @@
     --background: 0 0 0;
     --foreground: 255 255 255;
 
-    --card: 20 20 25;
+    --card: 15 15 20;
     --card-foreground: 255 255 255;
 
-    --popover: 20 20 25;
+    --popover: 15 15 20;
     --popover-foreground: 255 255 255;
 
-    --primary: 139 69 19;
+    --primary: 59 130 246;
     --primary-foreground: 255 255 255;
 
-    --secondary: 31 31 36;
+    --secondary: 30 30 35;
     --secondary-foreground: 255 255 255;
 
-    --muted: 45 45 50;
+    --muted: 40 40 45;
     --muted-foreground: 200 200 200;
 
-    --accent: 45 45 50;
+    --accent: 34 197 94;
     --accent-foreground: 255 255 255;
 
-    --destructive: 185 28 28;
+    --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --border: 55 55 60;
-    --input: 31 31 36;
-    --ring: 139 69 19;
+    --border: 50 50 55;
+    --input: 30 30 35;
+    --ring: 59 130 246;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 10 10 12;
+    --sidebar-background: 8 8 12;
     --sidebar-foreground: 255 255 255;
-    --sidebar-primary: 139 69 19;
+    --sidebar-primary: 59 130 246;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 31 31 36;
+    --sidebar-accent: 34 197 94;
     --sidebar-accent-foreground: 255 255 255;
-    --sidebar-border: 55 55 60;
-    --sidebar-ring: 139 69 19;
+    --sidebar-border: 50 50 55;
+    --sidebar-ring: 59 130 246;
+
+    /* Terminal colors */
+    --terminal-bg: 0 0 0;
+    --terminal-text: 34 197 94;
+    --terminal-cursor: 59 130 246;
+    --terminal-selection: 59 130 246;
+    --terminal-error: 239 68 68;
+    --terminal-warning: 245 158 11;
+    --terminal-success: 34 197 94;
+    --terminal-info: 59 130 246;
   }
 
   .dark {
     --background: 0 0 0;
     --foreground: 255 255 255;
 
-    --card: 20 20 25;
+    --card: 15 15 20;
     --card-foreground: 255 255 255;
 
-    --popover: 20 20 25;
+    --popover: 15 15 20;
     --popover-foreground: 255 255 255;
 
-    --primary: 139 69 19;
+    --primary: 59 130 246;
     --primary-foreground: 255 255 255;
 
-    --secondary: 31 31 36;
+    --secondary: 30 30 35;
     --secondary-foreground: 255 255 255;
 
-    --muted: 45 45 50;
+    --muted: 40 40 45;
     --muted-foreground: 200 200 200;
 
-    --accent: 45 45 50;
+    --accent: 34 197 94;
     --accent-foreground: 255 255 255;
 
-    --destructive: 185 28 28;
+    --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --border: 55 55 60;
-    --input: 31 31 36;
-    --ring: 139 69 19;
+    --border: 50 50 55;
+    --input: 30 30 35;
+    --ring: 59 130 246;
 
-    --sidebar-background: 10 10 12;
+    --sidebar-background: 8 8 12;
     --sidebar-foreground: 255 255 255;
-    --sidebar-primary: 139 69 19;
+    --sidebar-primary: 59 130 246;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 31 31 36;
+    --sidebar-accent: 34 197 94;
     --sidebar-accent-foreground: 255 255 255;
-    --sidebar-border: 55 55 60;
-    --sidebar-ring: 139 69 19;
+    --sidebar-border: 50 50 55;
+    --sidebar-ring: 59 130 246;
   }
 }
 
@@ -92,92 +102,96 @@
 
   body {
     @apply bg-black text-white;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
     color: white !important;
     overflow-x: hidden;
     background-color: black !important;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
   }
 
-  /* Force all text to be white */
+  /* Default text color for dark theme */
   h1, h2, h3, h4, h5, h6, p, span, div, label, button, input, textarea, select {
-    color: white !important;
+    color: inherit;
   }
 }
 
-/* Rain Animation */
-@keyframes rain {
+/* Terminal-style cursor animation */
+@keyframes terminal-cursor {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Matrix-style rain animation */
+@keyframes matrix-rain {
   0% {
     transform: translateY(-100vh) translateX(0);
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh) translateX(-50px);
+    transform: translateY(100vh) translateX(-20px);
     opacity: 0;
   }
 }
 
-@keyframes fade-in-sad {
+/* Glitch effect */
+@keyframes glitch {
   0% {
-    opacity: 0;
-    transform: translateY(20px);
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
   }
   100% {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translate(0);
   }
 }
 
-@keyframes glow-sad {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
+/* Scan line effect */
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Terminal-style typing animation */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Holographic effect */
+@keyframes holographic {
+  0% {
+    background-position: 0% 50%;
   }
   50% {
-    box-shadow: 0 0 20px rgba(139, 69, 19, 0.6);
-  }
-}
-
-/* macOS-style animations */
-@keyframes macos-bounce {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
+    background-position: 100% 50%;
   }
   100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes macos-hover {
-  0% {
-    transform: scale(1) translateY(0);
-  }
-  100% {
-    transform: scale(1.05) translateY(-2px);
-  }
-}
-
-@keyframes macos-click {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes chart-entrance {
-  0% {
-    opacity: 0;
-    transform: scale(0.8) rotate(-5deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
+    background-position: 0% 50%;
   }
 }
 
@@ -194,76 +208,159 @@
 
 .raindrop {
   position: absolute;
-  width: 2px;
-  height: 15px;
-  background: linear-gradient(to bottom, rgba(174, 194, 224, 0.8), rgba(174, 194, 224, 0.2));
+  width: 1px;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(34, 197, 94, 0.8), rgba(34, 197, 94, 0.2));
   border-radius: 50%;
-  animation: rain linear infinite;
+  animation: matrix-rain linear infinite;
 }
 
-.sad-fade-in {
-  animation: fade-in-sad 0.8s ease-out;
+.terminal-cursor {
+  animation: terminal-cursor 1s infinite;
 }
 
-.sad-glow {
-  animation: glow-sad 3s ease-in-out infinite;
+.glitch-text {
+  animation: glitch 0.3s infinite;
+  text-shadow: 
+    2px 0 rgba(239, 68, 68, 0.5),
+    -2px 0 rgba(59, 130, 246, 0.5);
 }
 
-/* Enhanced dark theme for cards */
+.scan-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(34, 197, 94, 0.5), transparent);
+  animation: scan-line 3s linear infinite;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.typing-effect {
+  overflow: hidden;
+  border-right: 2px solid var(--terminal-cursor);
+  white-space: nowrap;
+  animation: typing 3s steps(40, end), terminal-cursor 1s infinite;
+}
+
+.holographic-bg {
+  background: linear-gradient(-45deg, 
+    rgba(59, 130, 246, 0.1), 
+    rgba(34, 197, 94, 0.1), 
+    rgba(59, 130, 246, 0.1), 
+    rgba(34, 197, 94, 0.1)
+  );
+  background-size: 400% 400%;
+  animation: holographic 3s ease infinite;
+}
+
 .card-dark {
-  background: rgba(20, 20, 25, 0.9) !important;
-  border: 1px solid rgba(55, 55, 60, 0.5) !important;
+  background: rgba(15, 15, 20, 0.9);
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(59, 130, 246, 0.1);
 }
 
-/* macOS-style icon animations */
-.macos-icon {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform-origin: center;
+.card-dark:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 
+    0 8px 25px -5px rgba(59, 130, 246, 0.2),
+    0 4px 10px -2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(59, 130, 246, 0.2);
 }
 
-.macos-icon:hover {
-  animation: macos-hover 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  filter: brightness(1.2);
+.terminal-button {
+  background: rgba(30, 30, 35, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--terminal-text);
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.2s ease;
 }
 
-.macos-icon:active {
-  animation: macos-click 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.terminal-button:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
 }
 
-/* macOS-style chart animations */
-.macos-chart {
-  animation: chart-entrance 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.macos-chart:hover {
-  transform: scale(1.02);
-  filter: brightness(1.05);
-}
-
-/* macOS-style button animations */
-.macos-button {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform-origin: center;
-}
-
-.macos-button:hover {
-  transform: scale(1.05) translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.macos-button:active {
+.terminal-button:active {
   transform: scale(0.98);
 }
 
-/* macOS-style card animations */
-.macos-card {
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform-origin: center;
+.terminal-input {
+  background: rgba(8, 8, 12, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--terminal-text);
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.macos-card:hover {
-  transform: scale(1.02) translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+.terminal-input:focus {
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.code-block {
+  background: rgba(8, 8, 12, 0.95);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status-online {
+  background: var(--terminal-success);
+  box-shadow: 0 0 6px var(--terminal-success);
+}
+
+.status-warning {
+  background: var(--terminal-warning);
+  box-shadow: 0 0 6px var(--terminal-warning);
+}
+
+.status-error {
+  background: var(--terminal-error);
+  box-shadow: 0 0 6px var(--terminal-error);
+}
+
+.status-offline {
+  background: #6b7280;
+  box-shadow: 0 0 6px #6b7280;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .card-dark {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .terminal-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.15) 0%, transparent 50%);
+  }
 }

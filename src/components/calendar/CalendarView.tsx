@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, AlertCircle } from 'lucide-react';
+import { CheckCircle, Clock as ClockIcon, Hourglass, AlertCircle } from 'lucide-react';
 import { Task } from '@/types';
 import { format, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -29,6 +29,30 @@ const CalendarView = ({ tasks }: CalendarViewProps) => {
     return tasks.some(task => isSameDay(task.dueDate, date));
   };
 
+  // Novos helpers para destacar dias
+  const getDayStatus = (date: Date) => {
+    const dayTasks = getTasksForDate(date);
+    if (dayTasks.length === 0) return null;
+    if (dayTasks.some(t => t.status !== 'completed')) return 'pending';
+    return 'completed';
+  };
+
+  // Gera lista de datas para cada status
+  const getTaskDatesByStatus = () => {
+    const pending: Date[] = [];
+    const completed: Date[] = [];
+    // Considera apenas dias únicos
+    const allDates = Array.from(new Set(tasks.map(t => t.dueDate.toString()))).map(d => new Date(d));
+    allDates.forEach(date => {
+      const status = getDayStatus(date);
+      if (status === 'pending') pending.push(date);
+      if (status === 'completed') completed.push(date);
+    });
+    return { pending, completed };
+  };
+
+  const { pending: pendingDates, completed: completedDates } = getTaskDatesByStatus();
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2">
@@ -44,10 +68,12 @@ const CalendarView = ({ tasks }: CalendarViewProps) => {
               className="rounded-md border"
               locale={ptBR}
               modifiers={{
-                hasTask: getTaskDates(),
+                hasPending: pendingDates,
+                hasCompleted: completedDates,
               }}
               modifiersClassNames={{
-                hasTask: "bg-blue-100 text-blue-900 font-semibold",
+                hasPending: "bg-blue-200 text-blue-900 font-semibold border-2 border-blue-400",
+                hasCompleted: "bg-green-200 text-green-900 font-semibold border-2 border-green-400",
               }}
             />
           </CardContent>
@@ -58,7 +84,7 @@ const CalendarView = ({ tasks }: CalendarViewProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Clock className="h-5 w-5" />
+              <ClockIcon className="h-5 w-5" />
               <span>
                 {selectedDate ? format(selectedDate, "dd 'de' MMMM", { locale: ptBR }) : 'Selecione uma data'}
               </span>
@@ -72,7 +98,17 @@ const CalendarView = ({ tasks }: CalendarViewProps) => {
                   return (
                     <div key={task.id} className="p-3 border rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-sm">{task.title}</h4>
+                        <div className="flex items-center gap-2">
+                          {/* Ícone de status */}
+                          {task.status === 'completed' ? (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          ) : task.status === 'in_progress' ? (
+                            <ClockIcon className="h-4 w-4 text-blue-500" />
+                          ) : (
+                            <Hourglass className="h-4 w-4 text-yellow-500" />
+                          )}
+                          <h4 className="font-medium text-sm">{task.title}</h4>
+                        </div>
                         <div className="flex space-x-1">
                           <Badge variant={
                             task.priority === 'high' ? 'destructive' :

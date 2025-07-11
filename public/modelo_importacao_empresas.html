@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Modelo Importação Empresas - TaskFlow TI Hub</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; color: #333; }
+        .example { background-color: #e8f4f8; }
+        .instructions { background-color: #fff3cd; }
+        .header { background-color: #4a90e2; color: white; padding: 15px; border-radius: 5px; }
+        .warning { background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .success { background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .info { background-color: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Modelo de Importação de Empresas</h1>
+        <p><strong>TaskFlow TI Hub - Sistema de Controle Contábil</strong></p>
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ IMPORTANTE:</strong> Este arquivo deve ser salvo como CSV (.csv) antes de ser importado no sistema.
+    </div>
+
+    <div class="info">
+        <h3>📋 Instruções de Uso:</h3>
+        <ul>
+            <li><strong>Campos Obrigatórios:</strong> Nome da Empresa e CNPJ</li>
+            <li><strong>Campos Booleanos:</strong> Use "SIM" ou "NÃO" (maiúsculas)</li>
+            <li><strong>Segmento:</strong> comercio, industria, servicos, rural, outros</li>
+            <li><strong>Regime:</strong> simples, presumido, real, mei</li>
+            <li><strong>Nível:</strong> facil, medio, dificil</li>
+        </ul>
+    </div>
+
+    <div class="success">
+        <h3>✅ Como usar:</h3>
+        <ol>
+            <li>Preencha os dados nas linhas de exemplo</li>
+            <li>Adicione novas linhas conforme necessário</li>
+            <li>Salve o arquivo como CSV (Arquivo → Salvar Como → CSV)</li>
+            <li>Importe no sistema através do botão "Importar Empresas"</li>
+        </ol>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nome da Empresa *</th>
+                <th>CNPJ *</th>
+                <th>Responsável</th>
+                <th>Segmento</th>
+                <th>Regime</th>
+                <th>Nível</th>
+                <th>Nota Entrada</th>
+                <th>Nota Saída</th>
+                <th>Cupom</th>
+                <th>Apuração</th>
+                <th>Envio Documentos</th>
+                <th>Automação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="example">
+                <td>Exemplo Ltda</td>
+                <td>12.345.678/0001-90</td>
+                <td>João Silva</td>
+                <td>comercio</td>
+                <td>simples</td>
+                <td>medio</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+            </tr>
+            <tr class="example">
+                <td>ABC Indústria Ltda</td>
+                <td>98.765.432/0001-10</td>
+                <td>Maria Santos</td>
+                <td>industria</td>
+                <td>real</td>
+                <td>dificil</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>SIM</td>
+            </tr>
+            <tr class="example">
+                <td>Tech Solutions</td>
+                <td>11.222.333/0001-44</td>
+                <td>Ana Costa</td>
+                <td>servicos</td>
+                <td>simples</td>
+                <td>facil</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+            </tr>
+            <tr class="example">
+                <td>Fazenda Verde</td>
+                <td>55.666.777/0001-88</td>
+                <td>Pedro Oliveira</td>
+                <td>rural</td>
+                <td>presumido</td>
+                <td>medio</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+                <td>SIM</td>
+                <td>NÃO</td>
+            </tr>
+            <tr class="example">
+                <td>Consultoria XYZ</td>
+                <td>99.888.777/0001-66</td>
+                <td>Carlos Lima</td>
+                <td>servicos</td>
+                <td>real</td>
+                <td>dificil</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>SIM</td>
+                <td>SIM</td>
+            </tr>
+            <tr class="instructions">
+                <td colspan="12">
+                    <strong>📝 Opções disponíveis para cada campo:</strong><br><br>
+                    <strong>Segmento:</strong> comercio, industria, servicos, rural, outros<br>
+                    <strong>Regime:</strong> simples, presumido, real, mei<br>
+                    <strong>Nível:</strong> facil, medio, dificil<br>
+                    <strong>Automações:</strong> SIM ou NÃO (use maiúsculas)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+        <h3>🔧 Automações Disponíveis:</h3>
+        <ul>
+            <li><strong>Nota Entrada:</strong> Empresa emite notas fiscais de entrada</li>
+            <li><strong>Nota Saída:</strong> Empresa emite notas fiscais de saída</li>
+            <li><strong>Cupom:</strong> Empresa emite cupons fiscais</li>
+            <li><strong>Apuração:</strong> Apuração automática de impostos</li>
+            <li><strong>Envio Documentos:</strong> Envio automático de documentos ao cliente</li>
+            <li><strong>Automação:</strong> Processos automatizados configurados</li>
+        </ul>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center; color: #666;">
+        <p><strong>TaskFlow TI Hub</strong> - Sistema de Controle de Automações Contábeis</p>
+        <p>Versão 1.0 - Modelo de Importação de Empresas</p>
+    </div>
+</body>
+</html> 

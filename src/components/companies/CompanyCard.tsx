@@ -1,4 +1,4 @@
-import { Building2, Mail, Phone, Calendar, CheckCircle, XCircle, User, Bot, Eye } from 'lucide-react';
+import { Building2, Mail, Phone, Calendar, CheckCircle, XCircle, User, Bot, Eye, TrendingUp, FileText, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,25 @@ interface CompanyCardProps {
 }
 
 const CompanyCard = ({ company, systemsCount, tasksCount, onUpdate }: CompanyCardProps) => {
+  const getLevelColor = (level: string) => {
+    switch (level) {
+      case 'facil': return 'bg-green-100 text-green-800';
+      case 'medio': return 'bg-yellow-100 text-yellow-800';
+      case 'dificil': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getSegmentColor = (segment: string) => {
+    switch (segment) {
+      case 'comercio': return 'bg-blue-100 text-blue-800';
+      case 'industria': return 'bg-purple-100 text-purple-800';
+      case 'servicos': return 'bg-cyan-100 text-cyan-800';
+      case 'rural': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
     <Card className="hover:shadow-lg transition-shadow duration-200">
       <CardHeader className="pb-3">
@@ -39,7 +58,19 @@ const CompanyCard = ({ company, systemsCount, tasksCount, onUpdate }: CompanyCar
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-3 gap-2">
+        {/* Informações básicas */}
+        <div className="flex flex-wrap gap-2">
+          <Badge className={getSegmentColor(company.segment)}>
+            {company.segment.charAt(0).toUpperCase() + company.segment.slice(1)}
+          </Badge>
+          <Badge variant="outline">{company.regime.toUpperCase()}</Badge>
+          <Badge className={getLevelColor(company.level)}>
+            {company.level.charAt(0).toUpperCase() + company.level.slice(1)}
+          </Badge>
+        </div>
+
+        {/* Automações */}
+        <div className="grid grid-cols-2 gap-2">
           <div className="flex items-center space-x-1 text-xs">
             {company.hasNotaEntrada ? (
               <CheckCircle className="h-4 w-4 text-green-600" />
@@ -64,6 +95,22 @@ const CompanyCard = ({ company, systemsCount, tasksCount, onUpdate }: CompanyCar
             )}
             <span>Cupom</span>
           </div>
+          <div className="flex items-center space-x-1 text-xs">
+            {company.hasApuracao ? (
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-600" />
+            )}
+            <span>Apuração</span>
+          </div>
+          <div className="flex items-center space-x-1 text-xs">
+            {company.hasEnvioDocumentos ? (
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            ) : (
+              <XCircle className="h-4 w-4 text-red-600" />
+            )}
+            <span>Envio Docs</span>
+          </div>
         </div>
         
         <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -71,14 +118,6 @@ const CompanyCard = ({ company, systemsCount, tasksCount, onUpdate }: CompanyCar
           <span>Responsável: {company.responsiblePerson}</span>
         </div>
 
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <Mail className="h-4 w-4" />
-          <span>{company.email}</span>
-        </div>
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <Phone className="h-4 w-4" />
-          <span>{company.phone}</span>
-        </div>
         <div className="flex items-center space-x-2 text-sm text-gray-600">
           <Calendar className="h-4 w-4" />
           <span>Cliente desde {company.createdAt.toLocaleDateString()}</span>

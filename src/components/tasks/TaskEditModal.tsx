@@ -104,7 +104,7 @@ const TaskEditModal = ({ task, onSave }: TaskEditModalProps) => {
             </div>
             <div className="space-y-2">
               <Label htmlFor="priority">Prioridade</Label>
-              <Select value={editedTask.priority} onValueChange={(value: any) => setEditedTask({...editedTask, priority: value})}>
+              <Select value={editedTask.priority} onValueChange={(value: Task['priority']) => setEditedTask({...editedTask, priority: value})}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

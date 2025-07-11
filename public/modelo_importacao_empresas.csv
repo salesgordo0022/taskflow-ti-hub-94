@@ -1,0 +1,6 @@
+Nome da Empresa,CNPJ,Responsável,Segmento,Regime,Nível,Nota Entrada,Nota Saída,Cupom,Apuração,Envio Documentos,Automação
+Exemplo Ltda,12.345.678/0001-90,João Silva,comercio,simples,medio,SIM,NÃO,SIM,SIM,NÃO,SIM
+ABC Indústria Ltda,98.765.432/0001-10,Maria Santos,industria,real,dificil,SIM,SIM,NÃO,SIM,SIM,SIM
+Tech Solutions,11.222.333/0001-44,Ana Costa,servicos,simples,facil,NÃO,SIM,SIM,SIM,NÃO,SIM
+Fazenda Verde,55.666.777/0001-88,Pedro Oliveira,rural,presumido,medio,SIM,NÃO,SIM,NÃO,SIM,NÃO
+Consultoria XYZ,99.888.777/0001-66,Carlos Lima,servicos,real,dificil,SIM,SIM,SIM,SIM,SIM,SIM 

@@ -61,17 +61,17 @@ const InteractiveReportsTable = ({ title, data, onClose }: InteractiveReportsTab
   };
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-5xl max-h-[80vh] overflow-hidden bg-white/95 backdrop-blur-xl border-white/20 shadow-2xl">
-        <CardHeader className="border-b border-gray-200/50 bg-gray-50/80">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <Card className="w-full max-w-5xl max-h-[80vh] overflow-hidden bg-gray-900/95 backdrop-blur-xl border-blue-500/30 shadow-2xl shadow-blue-500/20">
+        <CardHeader className="border-b border-blue-500/20 bg-gray-800/80">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-medium text-gray-900">{title}</CardTitle>
+            <CardTitle className="text-xl font-medium text-blue-300 font-mono">{title}</CardTitle>
             <div className="flex items-center gap-2">
               <Button
                 onClick={exportToExcel}
                 variant="outline"
                 size="sm"
-                className="bg-white/80 hover:bg-white border-gray-200"
+                className="bg-blue-600/20 hover:bg-blue-600/30 border-blue-500/30 text-blue-300 font-mono"
               >
                 <Download className="h-4 w-4 mr-2" />
                 Exportar Excel
@@ -80,7 +80,7 @@ const InteractiveReportsTable = ({ title, data, onClose }: InteractiveReportsTab
                 onClick={onClose}
                 variant="ghost"
                 size="sm"
-                className="hover:bg-gray-100"
+                className="hover:bg-gray-700/50 text-gray-300 font-mono"
               >
                 ×
               </Button>
@@ -89,63 +89,63 @@ const InteractiveReportsTable = ({ title, data, onClose }: InteractiveReportsTab
         </CardHeader>
         <CardContent className="p-0 overflow-auto max-h-[60vh]">
           <Table>
-            <TableHeader className="bg-gray-50/80 sticky top-0">
+            <TableHeader className="bg-gray-800/80 sticky top-0">
               <TableRow>
                 <TableHead 
-                  className="cursor-pointer hover:bg-gray-100/80 font-medium"
+                  className="cursor-pointer hover:bg-gray-700/50 font-medium text-blue-300 font-mono"
                   onClick={() => handleSort('name')}
                 >
                   Nome {sortField === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
                 </TableHead>
                 <TableHead 
-                  className="cursor-pointer hover:bg-gray-100/80 font-medium"
+                  className="cursor-pointer hover:bg-gray-700/50 font-medium text-blue-300 font-mono"
                   onClick={() => handleSort('value')}
                 >
                   Valor {sortField === 'value' && (sortDirection === 'asc' ? '↑' : '↓')}
                 </TableHead>
                 <TableHead 
-                  className="cursor-pointer hover:bg-gray-100/80 font-medium"
+                  className="cursor-pointer hover:bg-gray-700/50 font-medium text-blue-300 font-mono"
                   onClick={() => handleSort('status')}
                 >
                   Status {sortField === 'status' && (sortDirection === 'asc' ? '↑' : '↓')}
                 </TableHead>
                 <TableHead 
-                  className="cursor-pointer hover:bg-gray-100/80 font-medium"
+                  className="cursor-pointer hover:bg-gray-700/50 font-medium text-blue-300 font-mono"
                   onClick={() => handleSort('date')}
                 >
                   Data {sortField === 'date' && (sortDirection === 'asc' ? '↑' : '↓')}
                 </TableHead>
                 {data[0]?.company && (
-                  <TableHead className="font-medium">Empresa</TableHead>
+                  <TableHead className="font-medium text-blue-300 font-mono">Empresa</TableHead>
                 )}
                 {data[0]?.priority && (
-                  <TableHead className="font-medium">Prioridade</TableHead>
+                  <TableHead className="font-medium text-blue-300 font-mono">Prioridade</TableHead>
                 )}
               </TableRow>
             </TableHeader>
             <TableBody>
               {sortedData.map((item) => (
-                <TableRow key={item.id} className="hover:bg-gray-50/50">
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.value}</TableCell>
+                <TableRow key={item.id} className="hover:bg-gray-800/50 border-gray-700">
+                  <TableCell className="font-medium text-white font-mono">{item.name}</TableCell>
+                  <TableCell className="text-gray-300 font-mono">{item.value}</TableCell>
                   <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      item.status === 'Concluído' ? 'bg-green-100 text-green-800' :
-                      item.status === 'Em Andamento' ? 'bg-blue-100 text-blue-800' :
-                      item.status === 'Pendente' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-gray-100 text-gray-800'
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium font-mono ${
+                      item.status === 'Concluído' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                      item.status === 'Em Andamento' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+                      item.status === 'Pendente' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                      'bg-gray-500/20 text-gray-400 border border-gray-500/30'
                     }`}>
                       {item.status}
                     </span>
                   </TableCell>
-                  <TableCell>{item.date}</TableCell>
-                  {item.company && <TableCell>{item.company}</TableCell>}
+                  <TableCell className="text-gray-300 font-mono">{item.date}</TableCell>
+                  {item.company && <TableCell className="text-gray-300 font-mono">{item.company}</TableCell>}
                   {item.priority && (
                     <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        item.priority === 'Alta' ? 'bg-red-100 text-red-800' :
-                        item.priority === 'Média' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-green-100 text-green-800'
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium font-mono ${
+                        item.priority === 'Alta' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                        item.priority === 'Média' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                        'bg-green-500/20 text-green-400 border border-green-500/30'
                       }`}>
                         {item.priority}
                       </span>

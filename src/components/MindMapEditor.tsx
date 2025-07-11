@@ -13,7 +13,8 @@ import ReactFlow, {
   NodeProps,
   useReactFlow,
   Handle,
-  Position
+  Position,
+  BackgroundVariant
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -166,7 +167,7 @@ const MindMapEditor: React.FC<MindMapEditorProps> = ({
       >
         <MiniMap />
         <Controls />
-        <Background gap={16} color="#444" variant="dots" />
+        <Background gap={16} color="#444" variant={BackgroundVariant.Dots} />
       </ReactFlow>
       <div className="text-gray-400 text-xs mt-2 font-mono">Dica: Clique duplo no fundo para adicionar um novo nó. Clique duplo no nó para editar. Clique no × para apagar bloco. Arraste das bolinhas para conectar. Dê dois cliques na linha para desconectar blocos.</div>
     </div>

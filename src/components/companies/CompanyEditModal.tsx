@@ -9,7 +9,6 @@ import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Company } from '@/types';
 import { useToast } from '@/hooks/use-toast';
-import { Edit } from 'lucide-react';
 
 interface CompanyEditModalProps {
   company: Company;
@@ -68,12 +67,34 @@ const CompanyEditModal = ({ company, onSave, readOnly = false }: CompanyEditModa
               </div>
             </div>
 
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="responsible">Responsável</Label>
+                <Input
+                  id="responsible"
+                  value={editedCompany.responsiblePerson}
+                  onChange={(e) => setEditedCompany({...editedCompany, responsiblePerson: e.target.value})}
+                  disabled={readOnly}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={editedCompany.email}
+                  onChange={(e) => setEditedCompany({...editedCompany, email: e.target.value})}
+                  disabled={readOnly}
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="responsible">Responsável</Label>
+              <Label htmlFor="phone">Telefone</Label>
               <Input
-                id="responsible"
-                value={editedCompany.responsiblePerson}
-                onChange={(e) => setEditedCompany({...editedCompany, responsiblePerson: e.target.value})}
+                id="phone"
+                value={editedCompany.phone}
+                onChange={(e) => setEditedCompany({...editedCompany, phone: e.target.value})}
                 disabled={readOnly}
               />
             </div>

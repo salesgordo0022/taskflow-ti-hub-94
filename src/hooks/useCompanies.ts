@@ -7,13 +7,18 @@ export const useCompanies = () => {
   return useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
+      console.log('Fetching companies from Supabase...');
       const { data, error } = await supabase
         .from('companies')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching companies:', error);
+        throw error;
+      }
       
+      console.log('Companies fetched:', data);
       return data.map(company => ({
         id: company.id,
         name: company.name,
@@ -42,6 +47,7 @@ export const useCreateCompany = () => {
   
   return useMutation({
     mutationFn: async (company: Omit<Company, 'id' | 'createdAt'>) => {
+      console.log('Creating company:', company);
       const { data, error } = await supabase
         .from('companies')
         .insert({
@@ -64,7 +70,11 @@ export const useCreateCompany = () => {
         .select()
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error creating company:', error);
+        throw error;
+      }
+      console.log('Company created:', data);
       return data;
     },
     onSuccess: () => {
@@ -77,7 +87,8 @@ export const useUpdateCompany = () => {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: async ({ id, ...company }: Company) => {
+    mutationFn: async (company: Company) => {
+      console.log('Updating company:', company);
       const { data, error } = await supabase
         .from('companies')
         .update({
@@ -97,11 +108,15 @@ export const useUpdateCompany = () => {
           has_envio_documentos: company.hasEnvioDocumentos,
           is_automated: company.isAutomated
         })
-        .eq('id', id)
+        .eq('id', company.id)
         .select()
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error updating company:', error);
+        throw error;
+      }
+      console.log('Company updated:', data);
       return data;
     },
     onSuccess: () => {
@@ -115,12 +130,17 @@ export const useDeleteCompany = () => {
   
   return useMutation({
     mutationFn: async (id: string) => {
+      console.log('Deleting company:', id);
       const { error } = await supabase
         .from('companies')
         .delete()
         .eq('id', id);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error deleting company:', error);
+        throw error;
+      }
+      console.log('Company deleted:', id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });

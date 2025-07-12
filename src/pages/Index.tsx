@@ -37,7 +37,13 @@ import { Node, Edge, addEdge, useNodesState, useEdgesState, Connection } from 'r
 import { ReactFlowProvider } from 'reactflow';
 import { addDays } from 'date-fns';
 
-import { mockCompanies, mockSystems, mockTasks, mockIncidents, mockUsers } from '@/utils/mockData';
+// Importar hooks do Supabase
+import { useCompanies, useCreateCompany, useUpdateCompany } from '@/hooks/useCompanies';
+import { useSystems, useCreateSystem, useUpdateSystem } from '@/hooks/useSystems';
+import { useTasks, useCreateTask, useUpdateTask } from '@/hooks/useTasks';
+import { useIncidents, useCreateIncident, useUpdateIncident } from '@/hooks/useIncidents';
+import { useUsers } from '@/hooks/useUsers';
+
 import { Task, Company, System } from '@/types';
 import React from 'react';
 import IncidentCreateModal from '@/components/incidents/IncidentCreateModal';
@@ -77,64 +83,33 @@ function saveMindMaps(maps: MindMapData[]) {
 const Index = () => {
   const { isAuthenticated } = useAuth();
 
+  // Usar hooks do Supabase para dados reais
+  const { data: companies = [], isLoading: companiesLoading } = useCompanies();
+  const { data: systems = [], isLoading: systemsLoading } = useSystems();
+  const { data: tasks = [], isLoading: tasksLoading } = useTasks();
+  const { data: incidents = [], isLoading: incidentsLoading } = useIncidents();
+  const { data: users = [], isLoading: usersLoading } = useUsers();
+
+  // Hooks de mutação
+  const { mutate: createCompany } = useCreateCompany();
+  const { mutate: updateCompany } = useUpdateCompany();
+  const { mutate: createSystem } = useCreateSystem();
+  const { mutate: updateSystem } = useUpdateSystem();
+  const { mutate: createTask } = useCreateTask();
+  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: createIncident } = useCreateIncident();
+  const { mutate: updateIncident } = useUpdateIncident();
+
   // HOOKS DEVEM VIR ANTES DE QUALQUER RETURN!
   const [activeTab, setActiveTab] = useState('dashboard');
   const [systemTab, setSystemTab] = useState<'overview' | 'users' | 'tips'>('overview');
   const [taskTab, setTaskTab] = useState<'kanban' | 'list' | 'completed'>('kanban');
-  // Exemplo de tarefas com dueDate para o calendário
-  const exampleTasks: Task[] = [
-    {
-      id: '1',
-      title: 'Reunião com equipe',
-      description: 'Discutir metas do mês',
-      responsible: 'João',
-      priority: 'high',
-      status: 'pending',
-      dueDate: addDays(new Date(), 1),
-      createdAt: new Date(),
-      reminderEnabled: false,
-      reminderChannels: [],
-      subtasks: [],
-    },
-    {
-      id: '2',
-      title: 'Entrega de relatório',
-      description: 'Enviar relatório financeiro',
-      responsible: 'Maria',
-      priority: 'medium',
-      status: 'completed',
-      dueDate: addDays(new Date(), 2),
-      createdAt: new Date(),
-      completedAt: addDays(new Date(), 2),
-      reminderEnabled: false,
-      reminderChannels: [],
-      subtasks: [],
-    },
-    {
-      id: '3',
-      title: 'Atualizar sistema',
-      description: 'Deploy da nova versão',
-      responsible: 'Carlos',
-      priority: 'low',
-      status: 'in_progress',
-      dueDate: new Date(),
-      createdAt: new Date(),
-      reminderEnabled: false,
-      reminderChannels: [],
-      subtasks: [],
-    },
-  ];
-  // Use as tarefas de exemplo junto com as mockTasks
-  const [tasks, setTasks] = useState([...exampleTasks, ...mockTasks]);
-  const [companies, setCompanies] = useState(mockCompanies);
-  const [systems, setSystems] = useState(mockSystems);
+
   // Estado para múltiplos mapas mentais
   const [mindMaps, setMindMaps] = useState<MindMapData[]>(loadMindMaps());
   const [selectedMindMapId, setSelectedMindMapId] = useState<string>(mindMaps[0]?.id || '');
   // Novo estado: se o editor está aberto
   const [mindMapEditorOpen, setMindMapEditorOpen] = useState<boolean>(false);
-  // Estado de incidentes deve estar aqui!
-  const [incidents, setIncidents] = useState<Incident[]>(mockIncidents);
 
   // FILTROS DE TAREFAS (mover para o topo)
   const [taskFilterStatus, setTaskFilterStatus] = useState<string>('all');
@@ -220,70 +195,80 @@ const Index = () => {
     setSelectedMindMapId(id);
     setMindMapEditorOpen(true);
   };
-  // Função para criar tarefa
-  const handleTaskCreate = (newTask: Task) => {
-    setTasks(prev => [...prev, newTask]);
-  };
-  // Função para criar incidente
-  const handleIncidentCreate = (newIncident: Incident) => {
-    setIncidents(prev => [...prev, newIncident]);
-  };
-
-  // Função para atualizar incidente
-  const handleIncidentUpdate = (updatedIncident: Incident) => {
-    setIncidents(prev => prev.map(incident => 
-      incident.id === updatedIncident.id ? updatedIncident : incident
-    ));
-  };
-
-  // Função para adicionar nota ao incidente
-  const handleIncidentAddNote = (incidentId: string, note: string) => {
-    setIncidents(prev => prev.map(incident => 
-      incident.id === incidentId 
-        ? { ...incident, notes: [...incident.notes, note] }
-        : incident
-    ));
-  };
 
   // HOOKS TERMINAM AQUI. SÓ DEPOIS PODE HAVER RETURN CONDICIONAL!
   if (!isAuthenticated) {
     return <LoginScreen />;
   }
 
+  // Mostrar loading se os dados ainda estão carregando
+  if (companiesLoading || systemsLoading || tasksLoading || incidentsLoading || usersLoading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Aurora />
+        <div className="text-center z-10">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-400 mx-auto mb-4"></div>
+          <p className="text-blue-400 font-mono text-lg">Carregando dados do sistema...</p>
+        </div>
+      </div>
+    );
+  }
+
   const handleTaskStatusChange = (taskId: string, status: Task['status']) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId ? { ...task, status } : task
-    ));
+    const taskToUpdate = tasks.find(t => t.id === taskId);
+    if (taskToUpdate) {
+      updateTask({ ...taskToUpdate, status });
+    }
   };
 
   const handleTaskUpdate = (updatedTask: Task) => {
-    setTasks(prev => prev.map(task => 
-      task.id === updatedTask.id ? updatedTask : task
-    ));
+    updateTask(updatedTask);
   };
 
   const handleCompanyUpdate = (updatedCompany: Company) => {
-    setCompanies(prev => prev.map(company => 
-      company.id === updatedCompany.id ? updatedCompany : company
-    ));
+    updateCompany(updatedCompany);
   };
 
-  const handleCompanyCreate = (newCompany: Company) => {
-    setCompanies(prev => [...prev, newCompany]);
+  const handleCompanyCreate = (newCompany: Omit<Company, 'id' | 'createdAt'>) => {
+    createCompany(newCompany);
   };
 
   const handleCompanyImport = (importedCompanies: Company[]) => {
-    setCompanies(prev => [...prev, ...importedCompanies]);
+    importedCompanies.forEach(company => {
+      const { id, createdAt, ...companyData } = company;
+      createCompany(companyData);
+    });
   };
 
   const handleSystemUpdate = (updatedSystem: System) => {
-    setSystems(prev => prev.map(system => 
-      system.id === updatedSystem.id ? updatedSystem : system
-    ));
+    updateSystem(updatedSystem);
   };
 
-  const handleSystemCreate = (newSystem: System) => {
-    setSystems(prev => [...prev, newSystem]);
+  const handleSystemCreate = (newSystem: Omit<System, 'id'>) => {
+    createSystem(newSystem);
+  };
+
+  // Função para criar tarefa
+  const handleTaskCreate = (newTask: Omit<Task, 'id' | 'createdAt'>) => {
+    createTask(newTask);
+  };
+
+  // Função para criar incidente
+  const handleIncidentCreate = (newIncident: Omit<Incident, 'id' | 'createdAt'>) => {
+    createIncident(newIncident);
+  };
+
+  // Função para atualizar incidente
+  const handleIncidentUpdate = (updatedIncident: Incident) => {
+    updateIncident(updatedIncident);
+  };
+
+  // Função para adicionar nota ao incidente
+  const handleIncidentAddNote = (incidentId: string, note: string) => {
+    const incident = incidents.find(i => i.id === incidentId);
+    if (incident) {
+      updateIncident({ ...incident, notes: [...incident.notes, note] });
+    }
   };
 
   const getCompanyNames = (companyIds: string[]) => {
@@ -303,7 +288,26 @@ const Index = () => {
   const pendingTasks = tasks.filter(t => t.status === 'pending').length;
   const completedTasks = tasks.filter(t => t.status === 'completed').length;
   const systemsInProgress = systems.filter(s => s.status === 'in_progress').length;
-  const openIncidents = mockIncidents.filter(i => i.status !== 'resolved').length;
+  const openIncidents = incidents.filter(i => i.status !== 'resolved').length;
+
+  // Função para exportar tarefas filtradas para Excel
+  const handleExportExcel = () => {
+    // Monta os dados para exportação
+    const data = filteredTasks.map(task => ({
+      ID: task.id,
+      Título: task.title,
+      Descrição: task.description,
+      Responsável: task.responsible,
+      Prioridade: task.priority,
+      Status: task.status,
+      Vencimento: task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '',
+      CriadaEm: task.createdAt ? new Date(task.createdAt).toLocaleDateString() : '',
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Tarefas');
+    XLSX.writeFile(wb, 'tarefas.xlsx');
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -321,14 +325,14 @@ const Index = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <MetricCard
                 title="Tarefas Pendentes"
-                value={tasks.filter(t => t.status === 'pending').length}
+                value={pendingTasks}
                 icon={CheckSquare}
                 color="yellow"
                 trend={{ value: 12, isPositive: false }}
               />
               <MetricCard
                 title="Sistemas Ativos"
-                value={systems.filter(s => s.status === 'in_progress').length}
+                value={systemsInProgress}
                 icon={Server}
                 color="green"
                 trend={{ value: 8, isPositive: true }}
@@ -341,7 +345,7 @@ const Index = () => {
               />
               <MetricCard
                 title="Incidentes Abertos"
-                value={mockIncidents.filter(i => i.status !== 'resolved').length}
+                value={openIncidents}
                 icon={AlertTriangle}
                 color="red"
                 trend={{ value: 25, isPositive: false }}
@@ -534,7 +538,7 @@ const Index = () => {
                       <div>
                         <p className="text-sm text-gray-400 font-mono">Usuários Ativos</p>
                         <p className="text-2xl font-bold text-purple-400 font-mono">
-                          {mockUsers.length}
+                          {users.length}
                         </p>
                       </div>
                     </div>
@@ -570,7 +574,7 @@ const Index = () => {
             )}
 
             {systemTab === 'users' && (
-              <SystemUserManagement systems={systems} users={mockUsers} />
+              <SystemUserManagement systems={systems} users={users} />
             )}
 
             {systemTab === 'tips' && (
@@ -672,38 +676,6 @@ const Index = () => {
         );
 
       case 'tasks':
-        // ESTADO DOS FILTROS E BUSCA
-        // Função para filtrar tarefas
-        // const filteredTasks = tasks.filter(task => {
-        //   const statusOk = taskFilterStatus === 'all' || task.status === taskFilterStatus;
-        //   const priorityOk = taskFilterPriority === 'all' || task.priority === taskFilterPriority;
-        //   const responsibleOk = taskFilterResponsible === 'all' || task.responsible === taskFilterResponsible;
-        //   // Suporte a sistema (caso a task tenha systemId)
-        //   const systemOk = taskFilterSystem === 'all' || (task.systemId && task.systemId === taskFilterSystem);
-        //   const searchOk =
-        //     task.title.toLowerCase().includes(taskSearch.toLowerCase()) ||
-        //     (task.description && task.description.toLowerCase().includes(taskSearch.toLowerCase()));
-        //   return statusOk && priorityOk && responsibleOk && systemOk && searchOk;
-        // });
-
-        // Função para exportar tarefas filtradas para Excel
-        const handleExportExcel = () => {
-          // Monta os dados para exportação
-          const data = filteredTasks.map(task => ({
-            ID: task.id,
-            Título: task.title,
-            Descrição: task.description,
-            Responsável: task.responsible,
-            Prioridade: task.priority,
-            Status: task.status,
-            Vencimento: task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '',
-            CriadaEm: task.createdAt ? new Date(task.createdAt).toLocaleDateString() : '',
-          }));
-          const ws = XLSX.utils.json_to_sheet(data);
-          const wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, 'Tarefas');
-          XLSX.writeFile(wb, 'tarefas.xlsx');
-        };
         return (
           <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -803,9 +775,9 @@ const Index = () => {
                             <div key={`task-${task.id}`} className="mb-2">
                               <TaskCard
                                 task={task}
-              onStatusChange={handleTaskStatusChange}
-              onTaskUpdate={handleTaskUpdate}
-            />
+                                onStatusChange={handleTaskStatusChange}
+                                onTaskUpdate={handleTaskUpdate}
+                              />
                             </div>
                           ))}
                         </div>

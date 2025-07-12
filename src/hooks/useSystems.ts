@@ -7,12 +7,18 @@ export const useSystems = () => {
   return useQuery({
     queryKey: ['systems'],
     queryFn: async () => {
+      console.log('Fetching systems from Supabase...');
       const { data: systemsData, error: systemsError } = await supabase
         .from('systems')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (systemsError) throw systemsError;
+      if (systemsError) {
+        console.error('Error fetching systems:', systemsError);
+        throw systemsError;
+      }
+
+      console.log('Systems fetched:', systemsData);
 
       // Buscar empresas relacionadas e tags para cada sistema
       const systemsWithRelations = await Promise.all(
@@ -65,6 +71,7 @@ export const useCreateSystem = () => {
   
   return useMutation({
     mutationFn: async (system: Omit<System, 'id'>) => {
+      console.log('Creating system:', system);
       const { data, error } = await supabase
         .from('systems')
         .insert({
@@ -83,7 +90,12 @@ export const useCreateSystem = () => {
         .select()
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error creating system:', error);
+        throw error;
+      }
+
+      console.log('System created:', data);
 
       // Inserir relacionamentos com empresas
       if (system.companies.length > 0) {
@@ -96,7 +108,10 @@ export const useCreateSystem = () => {
             }))
           );
         
-        if (companiesError) throw companiesError;
+        if (companiesError) {
+          console.error('Error linking companies:', companiesError);
+          throw companiesError;
+        }
       }
 
       // Inserir tags
@@ -110,7 +125,10 @@ export const useCreateSystem = () => {
             }))
           );
         
-        if (tagsError) throw tagsError;
+        if (tagsError) {
+          console.error('Error creating tags:', tagsError);
+          throw tagsError;
+        }
       }
 
       // Inserir usuários com acesso
@@ -124,7 +142,10 @@ export const useCreateSystem = () => {
             }))
           );
         
-        if (usersError) throw usersError;
+        if (usersError) {
+          console.error('Error linking users:', usersError);
+          throw usersError;
+        }
       }
 
       return data;
@@ -140,6 +161,7 @@ export const useUpdateSystem = () => {
   
   return useMutation({
     mutationFn: async (system: System) => {
+      console.log('Updating system:', system);
       const { data, error } = await supabase
         .from('systems')
         .update({
@@ -159,7 +181,12 @@ export const useUpdateSystem = () => {
         .select()
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error updating system:', error);
+        throw error;
+      }
+
+      console.log('System updated:', data);
 
       // Atualizar relacionamentos com empresas
       await supabase.from('system_companies').delete().eq('system_id', system.id);
@@ -213,12 +240,17 @@ export const useDeleteSystem = () => {
   
   return useMutation({
     mutationFn: async (id: string) => {
+      console.log('Deleting system:', id);
       const { error } = await supabase
         .from('systems')
         .delete()
         .eq('id', id);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error deleting system:', error);
+        throw error;
+      }
+      console.log('System deleted:', id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['systems'] });

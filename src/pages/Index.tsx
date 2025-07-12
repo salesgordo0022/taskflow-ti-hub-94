@@ -80,15 +80,25 @@ function saveMindMaps(maps: MindMapData[]) {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maps));
 }
 
-const Index = () => {
+const Index: React.FC = () => {
+  console.log('Index component rendering...');
+  
   const { isAuthenticated } = useAuth();
+  console.log('Authentication status:', isAuthenticated);
 
   // Usar hooks do Supabase para dados reais
-  const { data: companies = [], isLoading: companiesLoading } = useCompanies();
-  const { data: systems = [], isLoading: systemsLoading } = useSystems();
-  const { data: tasks = [], isLoading: tasksLoading } = useTasks();
-  const { data: incidents = [], isLoading: incidentsLoading } = useIncidents();
-  const { data: users = [], isLoading: usersLoading } = useUsers();
+  console.log('Initializing Supabase hooks...');
+  
+  const { data: companies = [], isLoading: companiesLoading, error: companiesError } = useCompanies();
+  const { data: systems = [], isLoading: systemsLoading, error: systemsError } = useSystems();
+  const { data: tasks = [], isLoading: tasksLoading, error: tasksError } = useTasks();
+  const { data: incidents = [], isLoading: incidentsLoading, error: incidentsError } = useIncidents();
+  const { data: users = [], isLoading: usersLoading, error: usersError } = useUsers();
+
+  console.log('Hook status:', {
+    companiesLoading, systemsLoading, tasksLoading, incidentsLoading, usersLoading,
+    companiesError, systemsError, tasksError, incidentsError, usersError
+  });
 
   // Hooks de mutação
   const { mutate: createCompany } = useCreateCompany();
@@ -196,13 +206,19 @@ const Index = () => {
     setMindMapEditorOpen(true);
   };
 
+  console.log('About to check authentication...');
+
   // HOOKS TERMINAM AQUI. SÓ DEPOIS PODE HAVER RETURN CONDICIONAL!
   if (!isAuthenticated) {
+    console.log('User not authenticated, showing login screen');
     return <LoginScreen />;
   }
 
   // Mostrar loading se os dados ainda estão carregando
-  if (companiesLoading || systemsLoading || tasksLoading || incidentsLoading || usersLoading) {
+  const isAnyLoading = companiesLoading || systemsLoading || tasksLoading || incidentsLoading || usersLoading;
+  
+  if (isAnyLoading) {
+    console.log('Loading data from Supabase...');
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <Aurora />
@@ -213,6 +229,8 @@ const Index = () => {
       </div>
     );
   }
+
+  console.log('Data loaded, rendering main interface');
 
   const handleTaskStatusChange = (taskId: string, status: Task['status']) => {
     const taskToUpdate = tasks.find(t => t.id === taskId);

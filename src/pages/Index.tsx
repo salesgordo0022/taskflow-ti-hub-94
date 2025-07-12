@@ -86,30 +86,6 @@ const Index: React.FC = () => {
   const { isAuthenticated } = useAuth();
   console.log('Authentication status:', isAuthenticated);
 
-  // Usar hooks do Supabase para dados reais
-  console.log('Initializing Supabase hooks...');
-  
-  const { data: companies = [], isLoading: companiesLoading, error: companiesError } = useCompanies();
-  const { data: systems = [], isLoading: systemsLoading, error: systemsError } = useSystems();
-  const { data: tasks = [], isLoading: tasksLoading, error: tasksError } = useTasks();
-  const { data: incidents = [], isLoading: incidentsLoading, error: incidentsError } = useIncidents();
-  const { data: users = [], isLoading: usersLoading, error: usersError } = useUsers();
-
-  console.log('Hook status:', {
-    companiesLoading, systemsLoading, tasksLoading, incidentsLoading, usersLoading,
-    companiesError, systemsError, tasksError, incidentsError, usersError
-  });
-
-  // Hooks de mutação
-  const { mutate: createCompany } = useCreateCompany();
-  const { mutate: updateCompany } = useUpdateCompany();
-  const { mutate: createSystem } = useCreateSystem();
-  const { mutate: updateSystem } = useUpdateSystem();
-  const { mutate: createTask } = useCreateTask();
-  const { mutate: updateTask } = useUpdateTask();
-  const { mutate: createIncident } = useCreateIncident();
-  const { mutate: updateIncident } = useUpdateIncident();
-
   // HOOKS DEVEM VIR ANTES DE QUALQUER RETURN!
   const [activeTab, setActiveTab] = useState('dashboard');
   const [systemTab, setSystemTab] = useState<'overview' | 'users' | 'tips'>('overview');
@@ -127,6 +103,30 @@ const Index: React.FC = () => {
   const [taskFilterResponsible, setTaskFilterResponsible] = useState<string>('all');
   const [taskFilterSystem, setTaskFilterSystem] = useState<string>('all');
   const [taskSearch, setTaskSearch] = useState<string>('');
+
+  // Usar hooks do Supabase para dados reais - APENAS se autenticado
+  console.log('Initializing Supabase hooks...');
+  
+  const { data: companies = [], isLoading: companiesLoading, error: companiesError, refetch: refetchCompanies } = useCompanies();
+  const { data: systems = [], isLoading: systemsLoading, error: systemsError, refetch: refetchSystems } = useSystems();
+  const { data: tasks = [], isLoading: tasksLoading, error: tasksError, refetch: refetchTasks } = useTasks();
+  const { data: incidents = [], isLoading: incidentsLoading, error: incidentsError, refetch: refetchIncidents } = useIncidents();
+  const { data: users = [], isLoading: usersLoading, error: usersError } = useUsers();
+
+  console.log('Hook status:', {
+    companiesLoading, systemsLoading, tasksLoading, incidentsLoading, usersLoading,
+    companiesError, systemsError, tasksError, incidentsError, usersError
+  });
+
+  // Hooks de mutação
+  const { mutate: createCompany } = useCreateCompany();
+  const { mutate: updateCompany } = useUpdateCompany();
+  const { mutate: createSystem } = useCreateSystem();
+  const { mutate: updateSystem } = useUpdateSystem();
+  const { mutate: createTask } = useCreateTask();
+  const { mutate: updateTask } = useUpdateTask();
+  const { mutate: createIncident } = useCreateIncident();
+  const { mutate: updateIncident } = useUpdateIncident();
 
   // Função para filtrar tarefas (deve ficar fora do renderContent)
   const filteredTasks = tasks.filter(task => {
@@ -235,57 +235,145 @@ const Index: React.FC = () => {
   const handleTaskStatusChange = (taskId: string, status: Task['status']) => {
     const taskToUpdate = tasks.find(t => t.id === taskId);
     if (taskToUpdate) {
-      updateTask({ ...taskToUpdate, status });
+      updateTask({ ...taskToUpdate, status }, {
+        onSuccess: () => {
+          console.log('Task status updated successfully');
+          refetchTasks();
+        },
+        onError: (error) => {
+          console.error('Error updating task status:', error);
+        }
+      });
     }
   };
 
   const handleTaskUpdate = (updatedTask: Task) => {
-    updateTask(updatedTask);
+    updateTask(updatedTask, {
+      onSuccess: () => {
+        console.log('Task updated successfully');
+        refetchTasks();
+      },
+      onError: (error) => {
+        console.error('Error updating task:', error);
+      }
+    });
   };
 
   const handleCompanyUpdate = (updatedCompany: Company) => {
-    updateCompany(updatedCompany);
+    updateCompany(updatedCompany, {
+      onSuccess: () => {
+        console.log('Company updated successfully');
+        refetchCompanies();
+      },
+      onError: (error) => {
+        console.error('Error updating company:', error);
+      }
+    });
   };
 
   const handleCompanyCreate = (newCompany: Omit<Company, 'id' | 'createdAt'>) => {
-    createCompany(newCompany);
+    createCompany(newCompany, {
+      onSuccess: () => {
+        console.log('Company created successfully');
+        refetchCompanies();
+      },
+      onError: (error) => {
+        console.error('Error creating company:', error);
+      }
+    });
   };
 
   const handleCompanyImport = (importedCompanies: Company[]) => {
     importedCompanies.forEach(company => {
       const { id, createdAt, ...companyData } = company;
-      createCompany(companyData);
+      createCompany(companyData, {
+        onSuccess: () => {
+          console.log('Company imported successfully');
+          refetchCompanies();
+        },
+        onError: (error) => {
+          console.error('Error importing company:', error);
+        }
+      });
     });
   };
 
   const handleSystemUpdate = (updatedSystem: System) => {
-    updateSystem(updatedSystem);
+    updateSystem(updatedSystem, {
+      onSuccess: () => {
+        console.log('System updated successfully');
+        refetchSystems();
+      },
+      onError: (error) => {
+        console.error('Error updating system:', error);
+      }
+    });
   };
 
   const handleSystemCreate = (newSystem: Omit<System, 'id'>) => {
-    createSystem(newSystem);
+    createSystem(newSystem, {
+      onSuccess: () => {
+        console.log('System created successfully');
+        refetchSystems();
+      },
+      onError: (error) => {
+        console.error('Error creating system:', error);
+      }
+    });
   };
 
   // Função para criar tarefa
   const handleTaskCreate = (newTask: Omit<Task, 'id' | 'createdAt'>) => {
-    createTask(newTask);
+    createTask(newTask, {
+      onSuccess: () => {
+        console.log('Task created successfully');
+        refetchTasks();
+      },
+      onError: (error) => {
+        console.error('Error creating task:', error);
+      }
+    });
   };
 
   // Função para criar incidente
   const handleIncidentCreate = (newIncident: Omit<Incident, 'id' | 'createdAt'>) => {
-    createIncident(newIncident);
+    createIncident(newIncident, {
+      onSuccess: () => {
+        console.log('Incident created successfully');
+        refetchIncidents();
+      },
+      onError: (error) => {
+        console.error('Error creating incident:', error);
+      }
+    });
   };
 
   // Função para atualizar incidente
   const handleIncidentUpdate = (updatedIncident: Incident) => {
-    updateIncident(updatedIncident);
+    updateIncident(updatedIncident, {
+      onSuccess: () => {
+        console.log('Incident updated successfully');
+        refetchIncidents();
+      },
+      onError: (error) => {
+        console.error('Error updating incident:', error);
+      }
+    });
   };
 
   // Função para adicionar nota ao incidente
   const handleIncidentAddNote = (incidentId: string, note: string) => {
     const incident = incidents.find(i => i.id === incidentId);
     if (incident) {
-      updateIncident({ ...incident, notes: [...incident.notes, note] });
+      updateIncident({ ...incident, notes: [...incident.notes, note] }, {
+        onSuccess: () => {
+          console.log('Note added to incident successfully');
+          refetchIncidents();
+        },
+        onError: (error) => {
+          console.error('Error adding note to incident:', error);
+        }
+      });
     }
   };
 

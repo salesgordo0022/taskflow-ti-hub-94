@@ -1,4 +1,3 @@
-
 import { Building2, Mail, Phone, Calendar, CheckCircle, XCircle, User, Bot, Eye, TrendingUp, FileText, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -134,7 +133,7 @@ const CompanyCard = ({ company, systemsCount, tasksCount, onUpdate }: CompanyCar
             <Eye className="h-4 w-4 mr-2" />
             Ver Detalhes
           </Button>
-          <CompanyEditModal company={company} onUpdate={onUpdate} />
+          <CompanyEditModal company={company} onSave={onUpdate} />
         </div>
       </CardContent>
     </Card>

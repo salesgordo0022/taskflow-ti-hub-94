@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -9,13 +10,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Company } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { Plus } from 'lucide-react';
+import { useCreateCompany } from '@/hooks/useCompanies';
 
 interface CompanyCreateModalProps {
-  onSave: (company: Company) => void;
+  onSuccess?: () => void;
 }
 
-const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
+const CompanyCreateModal = ({ onSuccess }: CompanyCreateModalProps) => {
   const { toast } = useToast();
+  const createCompanyMutation = useCreateCompany();
   const [isOpen, setIsOpen] = useState(false);
   const [newCompany, setNewCompany] = useState<Omit<Company, 'id' | 'createdAt'>>({
     name: '',
@@ -35,7 +38,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
     isAutomated: false
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!newCompany.name || !newCompany.cnpj) {
       toast({
         title: "Erro",
@@ -45,37 +48,47 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
       return;
     }
 
-    const company: Company = {
-      ...newCompany,
-      id: Date.now().toString(),
-      createdAt: new Date(),
-      responsiblePerson: newCompany.responsiblePerson || newCompany.responsible
-    };
-
-    onSave(company);
-    setIsOpen(false);
-    setNewCompany({
-      name: '',
-      cnpj: '',
-      responsible: '',
-      responsiblePerson: '',
-      email: '',
-      phone: '',
-      segment: 'comercio',
-      regime: 'simples',
-      level: 'medio',
-      hasNotaEntrada: false,
-      hasNotaSaida: false,
-      hasCupom: false,
-      hasApuracao: false,
-      hasEnvioDocumentos: false,
-      isAutomated: false
-    });
-    
-    toast({
-      title: "Empresa criada",
-      description: "A nova empresa foi adicionada com sucesso.",
-    });
+    try {
+      await createCompanyMutation.mutateAsync({
+        ...newCompany,
+        responsiblePerson: newCompany.responsiblePerson || newCompany.responsible || newCompany.name
+      });
+      
+      setIsOpen(false);
+      setNewCompany({
+        name: '',
+        cnpj: '',
+        responsible: '',
+        responsiblePerson: '',
+        email: '',
+        phone: '',
+        segment: 'comercio',
+        regime: 'simples',
+        level: 'medio',
+        hasNotaEntrada: false,
+        hasNotaSaida: false,
+        hasCupom: false,
+        hasApuracao: false,
+        hasEnvioDocumentos: false,
+        isAutomated: false
+      });
+      
+      toast({
+        title: "Empresa criada",
+        description: "A nova empresa foi adicionada com sucesso.",
+      });
+      
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (error) {
+      console.error('Error creating company:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao criar empresa. Tente novamente.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -93,7 +106,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
         <div className="space-y-6">
           {/* Informações Básicas */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Informações Básicas</h3>
+            <h3 className="font-medium text-gray-100">Informações Básicas</h3>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -102,6 +115,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
                   id="name"
                   value={newCompany.name}
                   onChange={(e) => setNewCompany({...newCompany, name: e.target.value})}
+                  className="bg-gray-800 border-gray-700"
                 />
               </div>
               <div className="space-y-2">
@@ -110,6 +124,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
                   id="cnpj"
                   value={newCompany.cnpj}
                   onChange={(e) => setNewCompany({...newCompany, cnpj: e.target.value})}
+                  className="bg-gray-800 border-gray-700"
                 />
               </div>
             </div>
@@ -121,6 +136,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
                   id="responsible"
                   value={newCompany.responsiblePerson}
                   onChange={(e) => setNewCompany({...newCompany, responsiblePerson: e.target.value, responsible: e.target.value})}
+                  className="bg-gray-800 border-gray-700"
                 />
               </div>
               <div className="space-y-2">
@@ -130,6 +146,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
                   type="email"
                   value={newCompany.email}
                   onChange={(e) => setNewCompany({...newCompany, email: e.target.value})}
+                  className="bg-gray-800 border-gray-700"
                 />
               </div>
             </div>
@@ -141,6 +158,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
                   id="phone"
                   value={newCompany.phone}
                   onChange={(e) => setNewCompany({...newCompany, phone: e.target.value})}
+                  className="bg-gray-800 border-gray-700"
                 />
               </div>
             </div>
@@ -150,13 +168,13 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
 
           {/* Configurações Fiscais */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Configurações Fiscais</h3>
+            <h3 className="font-medium text-gray-100">Configurações Fiscais</h3>
             
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="segment">Segmento</Label>
                 <Select value={newCompany.segment} onValueChange={(value: Company['segment']) => setNewCompany({...newCompany, segment: value})}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-800 border-gray-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -172,7 +190,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="space-y-2">
                 <Label htmlFor="regime">Regime</Label>
                 <Select value={newCompany.regime} onValueChange={(value: Company['regime']) => setNewCompany({...newCompany, regime: value})}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-800 border-gray-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -187,7 +205,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="space-y-2">
                 <Label htmlFor="level">Nível da Empresa</Label>
                 <Select value={newCompany.level} onValueChange={(value: Company['level']) => setNewCompany({...newCompany, level: value})}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-800 border-gray-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -204,13 +222,13 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
 
           {/* Automações */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Automações Disponíveis</h3>
+            <h3 className="font-medium text-gray-100">Automações Disponíveis</h3>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Nota Fiscal de Entrada</Label>
-                  <p className="text-sm text-gray-500">Empresa emite notas de entrada</p>
+                  <p className="text-sm text-gray-400">Empresa emite notas de entrada</p>
                 </div>
                 <Switch
                   checked={newCompany.hasNotaEntrada}
@@ -221,7 +239,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Nota Fiscal de Saída</Label>
-                  <p className="text-sm text-gray-500">Empresa emite notas de saída</p>
+                  <p className="text-sm text-gray-400">Empresa emite notas de saída</p>
                 </div>
                 <Switch
                   checked={newCompany.hasNotaSaida}
@@ -232,7 +250,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Cupom Fiscal</Label>
-                  <p className="text-sm text-gray-500">Empresa emite cupons fiscais</p>
+                  <p className="text-sm text-gray-400">Empresa emite cupons fiscais</p>
                 </div>
                 <Switch
                   checked={newCompany.hasCupom}
@@ -243,7 +261,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Apuração</Label>
-                  <p className="text-sm text-gray-500">Apuração automática de impostos</p>
+                  <p className="text-sm text-gray-400">Apuração automática de impostos</p>
                 </div>
                 <Switch
                   checked={newCompany.hasApuracao}
@@ -254,7 +272,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Envio de Documentos</Label>
-                  <p className="text-sm text-gray-500">Envio automático ao cliente</p>
+                  <p className="text-sm text-gray-400">Envio automático ao cliente</p>
                 </div>
                 <Switch
                   checked={newCompany.hasEnvioDocumentos}
@@ -265,7 +283,7 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
               <div className="flex items-center justify-between">
                 <div>
                   <Label>Automação Geral</Label>
-                  <p className="text-sm text-gray-500">Processos automatizados configurados</p>
+                  <p className="text-sm text-gray-400">Processos automatizados configurados</p>
                 </div>
                 <Switch
                   checked={newCompany.isAutomated}
@@ -279,8 +297,8 @@ const CompanyCreateModal = ({ onSave }: CompanyCreateModalProps) => {
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleSave}>
-              Criar Empresa
+            <Button onClick={handleSave} disabled={createCompanyMutation.isPending}>
+              {createCompanyMutation.isPending ? 'Criando...' : 'Criar Empresa'}
             </Button>
           </div>
         </div>

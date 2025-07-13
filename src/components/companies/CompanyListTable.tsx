@@ -1,11 +1,15 @@
+
 import { useState } from 'react';
 import { Company } from '@/types';
 import { Button } from '@/components/ui/button';
 import CompanyEditModal from './CompanyEditModal';
+import { useDeleteCompany } from '@/hooks/useCompanies';
+import { useToast } from '@/hooks/use-toast';
+import { Trash2 } from 'lucide-react';
 
 interface CompanyListTableProps {
   companies: Company[];
-  onUpdate: (company: Company) => void;
+  onRefresh?: () => void;
 }
 
 const segmentos = [
@@ -25,20 +29,44 @@ const regimes = [
   { value: 'mei', label: 'MEI' },
 ];
 
-const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
+const CompanyListTable = ({ companies, onRefresh }: CompanyListTableProps) => {
   const [segmento, setSegmento] = useState('');
   const [regime, setRegime] = useState('');
+  const deleteCompanyMutation = useDeleteCompany();
+  const { toast } = useToast();
 
   const filtered = companies.filter(c =>
     (segmento === '' || c.segment === segmento) &&
     (regime === '' || c.regime === regime)
   );
 
+  const handleDelete = async (id: string, name: string) => {
+    if (window.confirm(`Tem certeza que deseja excluir a empresa "${name}"?`)) {
+      try {
+        await deleteCompanyMutation.mutateAsync(id);
+        toast({
+          title: "Empresa excluída",
+          description: `A empresa "${name}" foi excluída com sucesso.`,
+        });
+        if (onRefresh) {
+          onRefresh();
+        }
+      } catch (error) {
+        console.error('Error deleting company:', error);
+        toast({
+          title: "Erro",
+          description: "Erro ao excluir empresa. Tente novamente.",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+
   return (
     <div className="w-full">
       <div className="flex flex-wrap gap-4 mb-4">
         <select
-          className="bg-gray-900 border border-gray-700 text-gray-200 rounded px-3 py-2"
+          className="bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2"
           value={segmento}
           onChange={e => setSegmento(e.target.value)}
         >
@@ -47,7 +75,7 @@ const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
           ))}
         </select>
         <select
-          className="bg-gray-900 border border-gray-700 text-gray-200 rounded px-3 py-2"
+          className="bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2"
           value={regime}
           onChange={e => setRegime(e.target.value)}
         >
@@ -57,7 +85,7 @@ const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
         </select>
         <span className="text-gray-400 ml-auto text-sm">Total: {filtered.length}</span>
       </div>
-      <div className="overflow-x-auto rounded-lg border border-gray-700 bg-gray-950">
+      <div className="overflow-x-auto rounded-lg border border-gray-700 bg-gray-900">
         <table className="min-w-full text-sm text-gray-200">
           <thead>
             <tr className="bg-gray-800">
@@ -78,7 +106,7 @@ const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
               </tr>
             )}
             {filtered.map(company => (
-              <tr key={company.id} className="border-t border-gray-800 hover:bg-gray-900 transition">
+              <tr key={company.id} className="border-t border-gray-700 hover:bg-gray-800 transition">
                 <td className="px-3 py-2 font-medium">{company.name}</td>
                 <td className="px-3 py-2">{company.cnpj}</td>
                 <td className="px-3 py-2">{company.responsiblePerson}</td>
@@ -87,7 +115,18 @@ const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
                 <td className="px-3 py-2 capitalize">{company.level}</td>
                 <td className="px-3 py-2">{company.isAutomated ? 'Sim' : 'Não'}</td>
                 <td className="px-3 py-2">
-                  <CompanyEditModal company={company} onSave={onUpdate} />
+                  <div className="flex gap-2">
+                    <CompanyEditModal company={company} onSuccess={onRefresh} />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(company.id, company.name)}
+                      disabled={deleteCompanyMutation.isPending}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -98,4 +137,4 @@ const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
   );
 };
 
-export default CompanyListTable; 
+export default CompanyListTable;

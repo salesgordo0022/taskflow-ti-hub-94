@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -144,6 +145,24 @@ const Index = () => {
     refetchIncidents();
   };
 
+  // Get company names for systems
+  const getCompanyNames = (companyIds: string[]) => {
+    return companyIds
+      .map(id => companies.find(c => c.id === id)?.name)
+      .filter(Boolean) as string[];
+  };
+
+  // Get system and company names for incidents
+  const getSystemNames = (systemIds: string[]) => {
+    return systemIds
+      .map(id => systems.find(s => s.id === id)?.name)
+      .filter(Boolean) as string[];
+  };
+
+  const getCompanyName = (companyId: string) => {
+    return companies.find(c => c.id === companyId)?.name || '';
+  };
+
   console.log('About to check authentication...');
   console.log('Loading data from Supabase...');
 
@@ -215,26 +234,26 @@ const Index = () => {
               <MetricCard
                 title="Total de Empresas"
                 value={companies.length}
-                icon={<Building2 className="h-4 w-4" />}
-                trend={5}
+                icon={Building2}
+                trend={{ value: 5, isPositive: true }}
               />
               <MetricCard
                 title="Sistemas Ativos"
                 value={systems.filter(s => s.status !== 'completed').length}
-                icon={<Server className="h-4 w-4" />}
-                trend={2}
+                icon={Server}
+                trend={{ value: 2, isPositive: true }}
               />
               <MetricCard
                 title="Tarefas Pendentes"
                 value={tasks.filter(t => t.status === 'pending').length}
-                icon={<ListTodo className="h-4 w-4" />}
-                trend={-3}
+                icon={ListTodo}
+                trend={{ value: 3, isPositive: false }}
               />
               <MetricCard
                 title="Incidentes Abertos"
                 value={incidents.filter(i => i.status === 'open').length}
-                icon={<AlertTriangle className="h-4 w-4" />}
-                trend={1}
+                icon={AlertTriangle}
+                trend={{ value: 1, isPositive: true }}
               />
             </div>
 
@@ -302,7 +321,12 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {systems.map((system) => (
-                <SystemCard key={system.id} system={system} onUpdate={handleRefreshSystems} />
+                <SystemCard 
+                  key={system.id} 
+                  system={system} 
+                  companyNames={getCompanyNames(system.companies)}
+                  onUpdate={handleRefreshSystems} 
+                />
               ))}
             </div>
             
@@ -326,7 +350,14 @@ const Index = () => {
               </div>
             )}
             
-            <KanbanBoard tasks={tasks} onTaskUpdate={handleRefreshTasks} />
+            <KanbanBoard 
+              tasks={tasks} 
+              onTaskUpdate={handleRefreshTasks}
+              onStatusChange={(taskId: string, newStatus: string) => {
+                console.log(`Task ${taskId} status changed to ${newStatus}`);
+                handleRefreshTasks();
+              }}
+            />
           </TabsContent>
 
           {/* Incidents Tab */}
@@ -348,7 +379,15 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {incidents.map((incident) => (
-                <IncidentCard key={incident.id} incident={incident} onUpdate={handleRefreshIncidents} />
+                <IncidentCard 
+                  key={incident.id} 
+                  incident={incident} 
+                  systemNames={getSystemNames(incident.systemIds)}
+                  companyName={getCompanyName(incident.companyId)}
+                  systems={systems}
+                  companies={companies}
+                  onUpdate={handleRefreshIncidents} 
+                />
               ))}
             </div>
           </TabsContent>
@@ -365,7 +404,14 @@ const Index = () => {
 
           {/* Mind Map Tab */}
           <TabsContent value="mindmap">
-            <MindMapEditor />
+            <MindMapEditor 
+              nodes={[]}
+              edges={[]}
+              onNodesChange={() => {}}
+              onEdgesChange={() => {}}
+              onConnect={() => {}}
+              onSave={() => {}}
+            />
           </TabsContent>
 
           {/* Checklist Tab */}

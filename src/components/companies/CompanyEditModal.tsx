@@ -12,17 +12,17 @@ import { useToast } from '@/hooks/use-toast';
 
 interface CompanyEditModalProps {
   company: Company;
-  onSave: (company: Company) => void;
+  onUpdate: (company: Company) => void;
   readOnly?: boolean;
 }
 
-const CompanyEditModal = ({ company, onSave, readOnly = false }: CompanyEditModalProps) => {
+const CompanyEditModal = ({ company, onUpdate, readOnly = false }: CompanyEditModalProps) => {
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [editedCompany, setEditedCompany] = useState<Company>(company);
 
   const handleSave = () => {
-    onSave(editedCompany);
+    onUpdate(editedCompany);
     setIsOpen(false);
     toast({
       title: "Empresa atualizada",

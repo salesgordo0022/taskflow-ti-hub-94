@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Company } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -87,7 +88,7 @@ const CompanyListTable = ({ companies, onUpdate }: CompanyListTableProps) => {
                 <td className="px-3 py-2 capitalize">{company.level}</td>
                 <td className="px-3 py-2">{company.isAutomated ? 'Sim' : 'Não'}</td>
                 <td className="px-3 py-2">
-                  <CompanyEditModal company={company} onSave={onUpdate} />
+                  <CompanyEditModal company={company} onUpdate={onUpdate} />
                 </td>
               </tr>
             ))}

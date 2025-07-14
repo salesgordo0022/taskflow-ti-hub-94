@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Incident } from '@/types';
@@ -17,7 +16,7 @@ export const useSupabaseIncidents = () => {
           *,
           companies (name),
           incident_systems (
-            systems (name)
+            systems (id, name)
           ),
           incident_notes (*)
         `)
@@ -30,16 +29,11 @@ export const useSupabaseIncidents = () => {
         title: incident.title,
         description: incident.description || '',
         companyId: incident.company_id,
-        companyName: incident.companies?.name || '',
-        severity: incident.severity,
-        status: incident.status,
+        severity: incident.severity as 'low' | 'medium' | 'high' | 'critical',
+        status: incident.status as 'open' | 'in_progress' | 'resolved',
         resolvedAt: incident.resolved_at ? new Date(incident.resolved_at) : undefined,
-        systemNames: incident.incident_systems?.map((is: any) => is.systems.name) || [],
-        notes: incident.incident_notes?.map((note: any) => ({
-          id: note.id,
-          note: note.note,
-          createdAt: new Date(note.created_at)
-        })) || [],
+        systemIds: incident.incident_systems?.map((is: any) => is.systems.id) || [],
+        notes: incident.incident_notes?.map((note: any) => note.note) || [],
         createdAt: new Date(incident.created_at)
       }));
 
@@ -56,7 +50,7 @@ export const useSupabaseIncidents = () => {
     }
   };
 
-  const createIncident = async (incident: Omit<Incident, 'id' | 'createdAt' | 'notes' | 'systemNames' | 'companyName'>) => {
+  const createIncident = async (incident: Omit<Incident, 'id' | 'createdAt' | 'notes'>) => {
     try {
       const { data, error } = await supabase
         .from('incidents')
@@ -72,6 +66,20 @@ export const useSupabaseIncidents = () => {
         .single();
 
       if (error) throw error;
+
+      // Inserir relacionamentos com sistemas se existirem
+      if (incident.systemIds && incident.systemIds.length > 0) {
+        const systemsData = incident.systemIds.map(systemId => ({
+          incident_id: data.id,
+          system_id: systemId
+        }));
+
+        const { error: systemsError } = await supabase
+          .from('incident_systems')
+          .insert(systemsData);
+
+        if (systemsError) throw systemsError;
+      }
 
       await fetchIncidents();
       
@@ -107,6 +115,22 @@ export const useSupabaseIncidents = () => {
         .eq('id', incident.id);
 
       if (error) throw error;
+
+      // Atualizar relacionamentos com sistemas
+      await supabase.from('incident_systems').delete().eq('incident_id', incident.id);
+      
+      if (incident.systemIds && incident.systemIds.length > 0) {
+        const systemsData = incident.systemIds.map(systemId => ({
+          incident_id: incident.id,
+          system_id: systemId
+        }));
+
+        const { error: systemsError } = await supabase
+          .from('incident_systems')
+          .insert(systemsData);
+
+        if (systemsError) throw systemsError;
+      }
 
       await fetchIncidents();
       

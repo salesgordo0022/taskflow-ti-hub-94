@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Company } from '@/types';
@@ -26,15 +25,15 @@ export const useSupabaseCompanies = () => {
         responsiblePerson: company.responsible_person,
         email: company.email,
         phone: company.phone,
-        segment: company.segment,
-        regime: company.regime,
-        level: company.level,
-        hasNotaEntrada: company.has_nota_entrada,
-        hasNotaSaida: company.has_nota_saida,
-        hasCupom: company.has_cupom,
-        hasApuracao: company.has_apuracao,
-        hasEnvioDocumentos: company.has_envio_documentos,
-        isAutomated: company.is_automated,
+        segment: company.segment as 'comercio' | 'industria' | 'servicos' | 'rural' | 'outros',
+        regime: company.regime as 'simples' | 'presumido' | 'real' | 'mei',
+        level: company.level as 'facil' | 'medio' | 'dificil',
+        hasNotaEntrada: company.has_nota_entrada || false,
+        hasNotaSaida: company.has_nota_saida || false,
+        hasCupom: company.has_cupom || false,
+        hasApuracao: company.has_apuracao || false,
+        hasEnvioDocumentos: company.has_envio_documentos || false,
+        isAutomated: company.is_automated || false,
         createdAt: new Date(company.created_at)
       }));
 

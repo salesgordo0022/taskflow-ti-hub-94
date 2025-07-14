@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { System } from '@/types';
@@ -30,15 +29,16 @@ export const useSupabaseSystems = () => {
         version: system.version,
         description: system.description || '',
         responsible: system.responsible,
-        status: system.status,
+        status: system.status as 'planned' | 'in_progress' | 'testing' | 'completed',
         startDate: new Date(system.start_date),
         expectedEndDate: new Date(system.expected_end_date),
         actualEndDate: system.actual_end_date ? new Date(system.actual_end_date) : undefined,
-        progress: system.progress,
-        isImplemented: system.is_implemented,
+        progress: system.progress || 0,
+        isImplemented: system.is_implemented || false,
         systemUrl: system.system_url || '',
         tags: system.system_tags?.map((t: any) => t.tag) || [],
         companies: system.system_companies?.map((sc: any) => sc.companies.name) || [],
+        accessUsers: [], // Will be populated when user management is implemented
         createdAt: new Date(system.created_at)
       }));
 

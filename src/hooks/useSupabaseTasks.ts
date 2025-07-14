@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Task } from '@/types';
@@ -17,7 +16,8 @@ export const useSupabaseTasks = () => {
           *,
           subtasks (*),
           systems (name),
-          companies (name)
+          companies (name),
+          task_reminder_channels (channel)
         `)
         .order('created_at', { ascending: false });
 
@@ -28,19 +28,18 @@ export const useSupabaseTasks = () => {
         title: task.title,
         description: task.description || '',
         systemId: task.system_id,
-        systemName: task.systems?.name,
         companyId: task.company_id,
-        companyName: task.companies?.name,
         responsible: task.responsible,
-        priority: task.priority,
-        status: task.status,
+        priority: task.priority as 'low' | 'medium' | 'high',
+        status: task.status as 'pending' | 'in_progress' | 'completed',
         dueDate: new Date(task.due_date),
         completedAt: task.completed_at ? new Date(task.completed_at) : undefined,
-        reminderEnabled: task.reminder_enabled,
+        reminderEnabled: task.reminder_enabled || false,
+        reminderChannels: task.task_reminder_channels?.map((rc: any) => rc.channel as 'email' | 'whatsapp') || [],
         subtasks: task.subtasks?.map((st: any) => ({
           id: st.id,
           title: st.title,
-          completed: st.completed
+          completed: st.completed || false
         })) || [],
         createdAt: new Date(task.created_at)
       }));
@@ -78,6 +77,20 @@ export const useSupabaseTasks = () => {
         .single();
 
       if (error) throw error;
+
+      // Inserir canais de lembrete se existirem
+      if (task.reminderChannels && task.reminderChannels.length > 0) {
+        const channelsData = task.reminderChannels.map(channel => ({
+          task_id: data.id,
+          channel: channel
+        }));
+
+        const { error: channelsError } = await supabase
+          .from('task_reminder_channels')
+          .insert(channelsData);
+
+        if (channelsError) throw channelsError;
+      }
 
       await fetchTasks();
       
@@ -117,6 +130,22 @@ export const useSupabaseTasks = () => {
         .eq('id', task.id);
 
       if (error) throw error;
+
+      // Atualizar canais de lembrete
+      await supabase.from('task_reminder_channels').delete().eq('task_id', task.id);
+      
+      if (task.reminderChannels && task.reminderChannels.length > 0) {
+        const channelsData = task.reminderChannels.map(channel => ({
+          task_id: task.id,
+          channel: channel
+        }));
+
+        const { error: channelsError } = await supabase
+          .from('task_reminder_channels')
+          .insert(channelsData);
+
+        if (channelsError) throw channelsError;
+      }
 
       await fetchTasks();
       

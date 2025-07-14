@@ -1,35 +1,35 @@
 
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Header } from '@/components/layout/Header';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { MetricCard } from '@/components/dashboard/MetricCard';
-import { SystemProgressChart } from '@/components/dashboard/SystemProgressChart';
-import { TaskPriorityChart } from '@/components/dashboard/TaskPriorityChart';
-import { ProductivityChart } from '@/components/dashboard/ProductivityChart';
-import { AutomationReport } from '@/components/dashboard/AutomationReport';
-import { CompanyCard } from '@/components/companies/CompanyCard';
-import { CompanyCreateModal } from '@/components/companies/CompanyCreateModal';
-import { CompanyEditModal } from '@/components/companies/CompanyEditModal';
-import { CompanyImportModal } from '@/components/companies/CompanyImportModal';
-import { CompanyListTable } from '@/components/companies/CompanyListTable';
-import { SystemCard } from '@/components/systems/SystemCard';
-import { SystemCreateModal } from '@/components/systems/SystemCreateModal';
-import { SystemEditModal } from '@/components/systems/SystemEditModal';
-import { SystemUserManagement } from '@/components/systems/SystemUserManagement';
-import { TaskCreateModal } from '@/components/tasks/TaskCreateModal';
-import { TaskEditModal } from '@/components/tasks/TaskEditModal';
-import { KanbanBoard } from '@/components/tasks/KanbanBoard';
-import { IncidentCard } from '@/components/incidents/IncidentCard';
-import { IncidentCreateModal } from '@/components/incidents/IncidentCreateModal';
-import { IncidentEditModal } from '@/components/incidents/IncidentEditModal';
-import { InteractiveReportsTable } from '@/components/reports/InteractiveReportsTable';
-import { CalendarView } from '@/components/calendar/CalendarView';
-import { ChecklistTab } from '@/components/tools/ChecklistTab';
-import { InventoryTab } from '@/components/tools/InventoryTab';
-import { NetworkTestTab } from '@/components/tools/NetworkTestTab';
-import { KnowledgeBaseTab } from '@/components/tools/KnowledgeBaseTab';
-import { ScriptsToolsTab } from '@/components/tools/ScriptsToolsTab';
+import Header from '@/components/layout/Header';
+import Sidebar from '@/components/layout/Sidebar';
+import MetricCard from '@/components/dashboard/MetricCard';
+import SystemProgressChart from '@/components/dashboard/SystemProgressChart';
+import TaskPriorityChart from '@/components/dashboard/TaskPriorityChart';
+import ProductivityChart from '@/components/dashboard/ProductivityChart';
+import AutomationReport from '@/components/dashboard/AutomationReport';
+import CompanyCard from '@/components/companies/CompanyCard';
+import CompanyCreateModal from '@/components/companies/CompanyCreateModal';
+import CompanyEditModal from '@/components/companies/CompanyEditModal';
+import CompanyImportModal from '@/components/companies/CompanyImportModal';
+import CompanyListTable from '@/components/companies/CompanyListTable';
+import SystemCard from '@/components/systems/SystemCard';
+import SystemCreateModal from '@/components/systems/SystemCreateModal';
+import SystemEditModal from '@/components/systems/SystemEditModal';
+import SystemUserManagement from '@/components/systems/SystemUserManagement';
+import TaskCreateModal from '@/components/tasks/TaskCreateModal';
+import TaskEditModal from '@/components/tasks/TaskEditModal';
+import KanbanBoard from '@/components/tasks/KanbanBoard';
+import IncidentCard from '@/components/incidents/IncidentCard';
+import IncidentCreateModal from '@/components/incidents/IncidentCreateModal';
+import IncidentEditModal from '@/components/incidents/IncidentEditModal';
+import InteractiveReportsTable from '@/components/reports/InteractiveReportsTable';
+import CalendarView from '@/components/calendar/CalendarView';
+import ChecklistTab from '@/components/tools/ChecklistTab';
+import InventoryTab from '@/components/tools/InventoryTab';
+import NetworkTestTab from '@/components/tools/NetworkTestTab';
+import KnowledgeBaseTab from '@/components/tools/KnowledgeBaseTab';
+import ScriptsToolsTab from '@/components/tools/ScriptsToolsTab';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
@@ -130,6 +130,17 @@ export default function Index() {
   const handleEditIncident = async (incident) => {
     setSelectedIncident(incident);
     setEditIncidentOpen(true);
+  };
+
+  // Helper function to get company name by ID
+  const getCompanyNameById = (id: string) => {
+    const company = companies.find(c => c.id === id);
+    return company?.name || '';
+  };
+
+  // Helper function to get system names by IDs
+  const getSystemNamesByIds = (ids: string[]) => {
+    return systems.filter(s => ids.includes(s.id)).map(s => s.name);
   };
 
   return (
@@ -243,7 +254,7 @@ export default function Index() {
                         onEdit={handleEditCompany}
                         onDelete={deleteCompany}
                         systemsCount={systems.filter(s => s.companies.includes(company.name)).length}
-                        tasksCount={tasks.filter(t => t.companyName === company.name).length}
+                        tasksCount={tasks.filter(t => t.companyId === company.id).length}
                       />
                     ))}
                   </div>
@@ -394,8 +405,8 @@ export default function Index() {
                         companies={companies}
                         onUpdate={updateIncident}
                         onEdit={handleEditIncident}
-                        systemNames={incident.systemNames}
-                        companyName={incident.companyName}
+                        systemNames={getSystemNamesByIds(incident.systemIds)}
+                        companyName={getCompanyNameById(incident.companyId)}
                       />
                     ))}
                   </div>

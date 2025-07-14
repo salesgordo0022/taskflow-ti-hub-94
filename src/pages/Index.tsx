@@ -7,7 +7,6 @@ import MetricCard from '@/components/dashboard/MetricCard';
 import SystemProgressChart from '@/components/dashboard/SystemProgressChart';
 import TaskPriorityChart from '@/components/dashboard/TaskPriorityChart';
 import ProductivityChart from '@/components/dashboard/ProductivityChart';
-import AutomationReport from '@/components/dashboard/AutomationReport';
 import CompanyCard from '@/components/companies/CompanyCard';
 import CompanyCreateModal from '@/components/companies/CompanyCreateModal';
 import CompanyEditModal from '@/components/companies/CompanyEditModal';
@@ -16,7 +15,6 @@ import CompanyListTable from '@/components/companies/CompanyListTable';
 import SystemCard from '@/components/systems/SystemCard';
 import SystemCreateModal from '@/components/systems/SystemCreateModal';
 import SystemEditModal from '@/components/systems/SystemEditModal';
-import SystemUserManagement from '@/components/systems/SystemUserManagement';
 import TaskCreateModal from '@/components/tasks/TaskCreateModal';
 import TaskEditModal from '@/components/tasks/TaskEditModal';
 import KanbanBoard from '@/components/tasks/KanbanBoard';
@@ -40,11 +38,7 @@ import {
   Plus,
   Search,
   Grid,
-  List,
-  TrendingUp,
-  Users,
-  Activity,
-  Target
+  List
 } from 'lucide-react';
 import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
 import { useSupabaseSystems } from '@/hooks/useSupabaseSystems';
@@ -110,27 +104,6 @@ export default function Index() {
   const completedTasks = tasks.filter(task => task.status === 'completed').length;
   const pendingTasks = totalTasks - completedTasks;
   const openIncidents = incidents.filter(incident => incident.status === 'open').length;
-  const automatedCompanies = companies.filter(company => company.isAutomated).length;
-
-  const handleEditCompany = async (company) => {
-    setSelectedCompany(company);
-    setEditCompanyOpen(true);
-  };
-
-  const handleEditSystem = async (system) => {
-    setSelectedSystem(system);
-    setEditSystemOpen(true);
-  };
-
-  const handleEditTask = async (task) => {
-    setSelectedTask(task);
-    setEditTaskOpen(true);
-  };
-
-  const handleEditIncident = async (incident) => {
-    setSelectedIncident(incident);
-    setEditIncidentOpen(true);
-  };
 
   // Helper function to get company name by ID
   const getCompanyNameById = (id: string) => {
@@ -145,13 +118,12 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header onTabChange={setActiveTab} />
+      <Header />
       
       <div className="flex">
         <Sidebar 
           activeTab={activeTab} 
           onTabChange={setActiveTab}
-          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
         
         <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
@@ -250,7 +222,6 @@ export default function Index() {
                         key={company.id}
                         company={company}
                         onUpdate={updateCompany}
-                        onDelete={deleteCompany}
                         systemsCount={systems.filter(s => s.companies.includes(company.name)).length}
                         tasksCount={tasks.filter(t => t.companyId === company.id).length}
                       />
@@ -272,7 +243,9 @@ export default function Index() {
                   onUpdate={updateCompany}
                 />
 
-                <CompanyImportModal />
+                <CompanyImportModal 
+                  onImport={() => {}}
+                />
               </TabsContent>
 
               {/* Systems Tab */}
@@ -304,6 +277,8 @@ export default function Index() {
                       <SystemCard
                         key={system.id}
                         system={system}
+                        companyNames={system.companies}
+                        onUpdate={updateSystem}
                       />
                     ))}
                   </div>
@@ -311,13 +286,11 @@ export default function Index() {
 
                 <SystemCreateModal
                   onSave={createSystem}
-                  companies={companies}
                 />
 
                 <SystemEditModal
                   system={selectedSystem}
                   onSave={updateSystem}
-                  companies={companies}
                 />
               </TabsContent>
 
@@ -351,15 +324,11 @@ export default function Index() {
                 )}
 
                 <TaskCreateModal
-                  systems={systems}
-                  companies={companies}
                   onSave={createTask}
                 />
 
                 <TaskEditModal
                   task={selectedTask}
-                  systems={systems}
-                  companies={companies}
                   onSave={updateTask}
                 />
               </TabsContent>
@@ -395,14 +364,14 @@ export default function Index() {
                 <IncidentCreateModal
                   systems={systems}
                   companies={companies}
-                  onSave={createIncident}
+                  onCreate={createIncident}
                 />
 
                 <IncidentEditModal
                   incident={selectedIncident}
                   systems={systems}
                   companies={companies}
-                  onSave={updateIncident}
+                  onUpdate={updateIncident}
                 />
               </TabsContent>
 

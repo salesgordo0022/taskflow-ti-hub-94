@@ -118,7 +118,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onTabChange={setActiveTab} />
       
       <div className="flex">
         <Sidebar 
@@ -324,7 +324,7 @@ export default function Index() {
                 )}
 
                 <TaskCreateModal
-                  onSave={createTask}
+                  onCreate={createTask}
                 />
 
                 <TaskEditModal

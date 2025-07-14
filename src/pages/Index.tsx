@@ -145,13 +145,12 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onTabChange={setActiveTab} />
       
       <div className="flex">
         <Sidebar 
           activeTab={activeTab} 
           onTabChange={setActiveTab}
-          collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         />
         
@@ -192,13 +191,13 @@ export default function Index() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <SystemProgressChart systems={systems} />
-                  <TaskPriorityChart tasks={tasks} />
+                  <SystemProgressChart />
+                  <TaskPriorityChart />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <ProductivityChart />
-                  <TaskPriorityChart tasks={tasks} />
+                  <TaskPriorityChart />
                 </div>
               </TabsContent>
 
@@ -251,7 +250,6 @@ export default function Index() {
                         key={company.id}
                         company={company}
                         onUpdate={updateCompany}
-                        onEdit={handleEditCompany}
                         onDelete={deleteCompany}
                         systemsCount={systems.filter(s => s.companies.includes(company.name)).length}
                         tasksCount={tasks.filter(t => t.companyId === company.id).length}
@@ -261,28 +259,20 @@ export default function Index() {
                 ) : (
                   <CompanyListTable
                     companies={filteredCompanies}
-                    onEdit={handleEditCompany}
-                    onDelete={deleteCompany}
+                    onUpdate={updateCompany}
                   />
                 )}
 
                 <CompanyCreateModal
-                  open={createCompanyOpen}
-                  onOpenChange={setCreateCompanyOpen}
                   onSave={createCompany}
                 />
 
                 <CompanyEditModal
-                  open={editCompanyOpen}
-                  onOpenChange={setEditCompanyOpen}
                   company={selectedCompany}
-                  onSave={updateCompany}
+                  onUpdate={updateCompany}
                 />
 
-                <CompanyImportModal
-                  open={importCompanyOpen}
-                  onOpenChange={setImportCompanyOpen}
-                />
+                <CompanyImportModal />
               </TabsContent>
 
               {/* Systems Tab */}
@@ -314,22 +304,17 @@ export default function Index() {
                       <SystemCard
                         key={system.id}
                         system={system}
-                        onEdit={handleEditSystem}
                       />
                     ))}
                   </div>
                 )}
 
                 <SystemCreateModal
-                  open={createSystemOpen}
-                  onOpenChange={setCreateSystemOpen}
                   onSave={createSystem}
                   companies={companies}
                 />
 
                 <SystemEditModal
-                  open={editSystemOpen}
-                  onOpenChange={setEditSystemOpen}
                   system={selectedSystem}
                   onSave={updateSystem}
                   companies={companies}
@@ -366,16 +351,12 @@ export default function Index() {
                 )}
 
                 <TaskCreateModal
-                  open={createTaskOpen}
-                  onOpenChange={setCreateTaskOpen}
                   systems={systems}
                   companies={companies}
                   onSave={createTask}
                 />
 
                 <TaskEditModal
-                  open={editTaskOpen}
-                  onOpenChange={setEditTaskOpen}
                   task={selectedTask}
                   systems={systems}
                   companies={companies}
@@ -404,7 +385,6 @@ export default function Index() {
                         systems={systems}
                         companies={companies}
                         onUpdate={updateIncident}
-                        onEdit={handleEditIncident}
                         systemNames={getSystemNamesByIds(incident.systemIds)}
                         companyName={getCompanyNameById(incident.companyId)}
                       />
@@ -413,16 +393,12 @@ export default function Index() {
                 )}
 
                 <IncidentCreateModal
-                  open={createIncidentOpen}
-                  onOpenChange={setCreateIncidentOpen}
                   systems={systems}
                   companies={companies}
                   onSave={createIncident}
                 />
 
                 <IncidentEditModal
-                  open={editIncidentOpen}
-                  onOpenChange={setEditIncidentOpen}
                   incident={selectedIncident}
                   systems={systems}
                   companies={companies}
@@ -433,13 +409,17 @@ export default function Index() {
               {/* Reports Tab */}
               <TabsContent value="reports" className="space-y-6">
                 <h1 className="text-3xl font-bold text-foreground">Relatórios</h1>
-                <InteractiveReportsTable />
+                <InteractiveReportsTable
+                  title="Relatórios do Sistema"
+                  data={[]}
+                  onClose={() => {}}
+                />
               </TabsContent>
 
               {/* Calendar Tab */}
               <TabsContent value="calendar" className="space-y-6">
                 <h1 className="text-3xl font-bold text-foreground">Calendário</h1>
-                <CalendarView />
+                <CalendarView tasks={tasks} />
               </TabsContent>
 
               {/* Tools Tabs */}

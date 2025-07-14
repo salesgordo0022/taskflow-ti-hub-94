@@ -47,7 +47,6 @@ import { useSupabaseIncidents } from '@/hooks/useSupabaseIncidents';
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
@@ -126,7 +125,7 @@ export default function Index() {
           onTabChange={setActiveTab}
         />
         
-        <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
+        <main className="flex-1 transition-all duration-300 ml-64">
           <div className="p-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               {/* Dashboard Tab */}
@@ -243,9 +242,7 @@ export default function Index() {
                   onUpdate={updateCompany}
                 />
 
-                <CompanyImportModal 
-                  onImport={() => {}}
-                />
+                <CompanyImportModal onImport={() => {}} />
               </TabsContent>
 
               {/* Systems Tab */}

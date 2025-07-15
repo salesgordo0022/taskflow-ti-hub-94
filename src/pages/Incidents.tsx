@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Plus, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { IncidentCard } from '@/components/incidents/IncidentCard';
-import { IncidentCreateModal } from '@/components/incidents/IncidentCreateModal';
+import IncidentCard from '@/components/incidents/IncidentCard';
+import IncidentCreateModal from '@/components/incidents/IncidentCreateModal';
 import { useSupabaseIncidents } from '@/hooks/useSupabaseIncidents';
 
 const Incidents: React.FC = () => {

@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { Plus, Grid, List, Search } from 'lucide-react';
+import { Plus, Search, Grid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CompanyCard } from '@/components/companies/CompanyCard';
-import { CompanyListTable } from '@/components/companies/CompanyListTable';
-import { CompanyCreateModal } from '@/components/companies/CompanyCreateModal';
+import CompanyCard from '@/components/companies/CompanyCard';
+import CompanyListTable from '@/components/companies/CompanyListTable';
+import CompanyCreateModal from '@/components/companies/CompanyCreateModal';
 import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
 
 const Companies: React.FC = () => {

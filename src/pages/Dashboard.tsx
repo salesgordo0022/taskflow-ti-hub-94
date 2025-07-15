@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { MetricCard } from '@/components/dashboard/MetricCard';
-import { ProductivityChart } from '@/components/dashboard/ProductivityChart';
-import { SystemProgressChart } from '@/components/dashboard/SystemProgressChart';
-import { TaskPriorityChart } from '@/components/dashboard/TaskPriorityChart';
-import { AutomationReport } from '@/components/dashboard/AutomationReport';
+import MetricCard from '@/components/dashboard/MetricCard';
+import ProductivityChart from '@/components/dashboard/ProductivityChart';
+import SystemProgressChart from '@/components/dashboard/SystemProgressChart';
+import TaskPriorityChart from '@/components/dashboard/TaskPriorityChart';
+import AutomationReport from '@/components/dashboard/AutomationReport';
 import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
 import { useSupabaseSystems } from '@/hooks/useSupabaseSystems';
 import { useSupabaseTasks } from '@/hooks/useSupabaseTasks';

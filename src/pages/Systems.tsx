@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Plus, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SystemCard } from '@/components/systems/SystemCard';
-import { SystemCreateModal } from '@/components/systems/SystemCreateModal';
+import SystemCard from '@/components/systems/SystemCard';
+import SystemCreateModal from '@/components/systems/SystemCreateModal';
 import { useSupabaseSystems } from '@/hooks/useSupabaseSystems';
 import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
 

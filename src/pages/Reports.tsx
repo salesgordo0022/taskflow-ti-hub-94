@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { InteractiveReportsTable } from '@/components/reports/InteractiveReportsTable';
-import { CalendarView } from '@/components/calendar/CalendarView';
+import InteractiveReportsTable from '@/components/reports/InteractiveReportsTable';
+import CalendarView from '@/components/calendar/CalendarView';
 
 const Reports: React.FC = () => {
   return (

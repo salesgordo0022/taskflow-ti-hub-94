@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { KanbanBoard } from '@/components/tasks/KanbanBoard';
-import { TaskCreateModal } from '@/components/tasks/TaskCreateModal';
+import KanbanBoard from '@/components/tasks/KanbanBoard';
+import TaskCreateModal from '@/components/tasks/TaskCreateModal';
 import { useSupabaseTasks } from '@/hooks/useSupabaseTasks';
 
 const Tasks: React.FC = () => {

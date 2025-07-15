@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ChecklistTab } from '@/components/tools/ChecklistTab';
-import { InventoryTab } from '@/components/tools/InventoryTab';
-import { NetworkTestTab } from '@/components/tools/NetworkTestTab';
-import { KnowledgeBaseTab } from '@/components/tools/KnowledgeBaseTab';
-import { ScriptsToolsTab } from '@/components/tools/ScriptsToolsTab';
+import ChecklistTab from '@/components/tools/ChecklistTab';
+import InventoryTab from '@/components/tools/InventoryTab';
+import NetworkTestTab from '@/components/tools/NetworkTestTab';
+import KnowledgeBaseTab from '@/components/tools/KnowledgeBaseTab';
+import ScriptsToolsTab from '@/components/tools/ScriptsToolsTab';
 
 const Tools: React.FC = () => {
   return (

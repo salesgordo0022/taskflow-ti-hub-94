@@ -43,8 +43,6 @@ const Tasks: React.FC = () => {
       />
 
       <TaskCreateModal
-        open={isCreateModalOpen}
-        onOpenChange={setIsCreateModalOpen}
         onCreate={createTask}
       />
     </div>

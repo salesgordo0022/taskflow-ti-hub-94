@@ -26,7 +26,7 @@ const Companies: React.FC = () => {
 
   // Helper function to get counts for each company
   const getCompanyCounts = (companyId: string) => {
-    const systemsCount = systems.filter(s => s.companyIds?.includes(companyId)).length;
+    const systemsCount = systems.filter(s => s.companies?.includes(companyId)).length;
     const tasksCount = tasks.filter(t => t.companyId === companyId).length;
     return { systemsCount, tasksCount };
   };
@@ -101,9 +101,7 @@ const Companies: React.FC = () => {
       )}
 
       <CompanyCreateModal
-        open={isCreateModalOpen}
-        onOpenChange={setIsCreateModalOpen}
-        onCreate={createCompany}
+        onSave={createCompany}
       />
     </div>
   );

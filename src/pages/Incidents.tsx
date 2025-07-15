@@ -89,8 +89,6 @@ const Incidents: React.FC = () => {
       </div>
 
       <IncidentCreateModal
-        open={isCreateModalOpen}
-        onOpenChange={setIsCreateModalOpen}
         onCreate={createIncident}
         systems={systems}
         companies={companies}

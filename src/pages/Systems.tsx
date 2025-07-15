@@ -61,8 +61,6 @@ const Systems: React.FC = () => {
       </div>
 
       <SystemCreateModal
-        open={isCreateModalOpen}
-        onOpenChange={setIsCreateModalOpen}
         onCreate={createSystem}
       />
     </div>

@@ -39,24 +39,28 @@ const Dashboard: React.FC = () => {
           value={companies.length}
           icon={Building2}
           color="blue"
+          change={{ value: 0, isPositive: true }}
         />
         <MetricCard
           title="Sistemas Ativos"
           value={activeSystems}
           icon={Server}
           color="green"
+          change={{ value: 0, isPositive: true }}
         />
         <MetricCard
           title="Tarefas Pendentes"
           value={pendingTasks}
           icon={CheckSquare}
           color="yellow"
+          change={{ value: 0, isPositive: false }}
         />
         <MetricCard
           title="Incidentes Abertos"
           value={openIncidents}
           icon={AlertTriangle}
           color="red"
+          change={{ value: 0, isPositive: false }}
         />
       </div>
 
@@ -67,7 +71,7 @@ const Dashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <TaskPriorityChart />
-        <AutomationReport />
+        <AutomationReport companies={companies} />
       </div>
     </div>
   );

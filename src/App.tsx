@@ -7,10 +7,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import RainBackground from "@/components/animations/RainBackground";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import Layout from "@/components/layout/Layout";
+import Dashboard from "@/pages/Dashboard";
+import Companies from "@/pages/Companies";
+import Systems from "@/pages/Systems";
+import Tasks from "@/pages/Tasks";
+import Incidents from "@/pages/Incidents";
+import Reports from "@/pages/Reports";
+import Tools from "@/pages/Tools";
+import NotFound from "@/pages/NotFound";
 
-// Criar o QueryClient fora do componente para evitar recriações
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -30,7 +36,15 @@ const App: React.FC = () => {
             <Toaster />
             <Sonner />
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Dashboard />} />
+                <Route path="companies" element={<Companies />} />
+                <Route path="systems" element={<Systems />} />
+                <Route path="tasks" element={<Tasks />} />
+                <Route path="incidents" element={<Incidents />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="tools" element={<Tools />} />
+              </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

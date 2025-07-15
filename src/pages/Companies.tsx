@@ -7,6 +7,8 @@ import CompanyCard from '@/components/companies/CompanyCard';
 import CompanyListTable from '@/components/companies/CompanyListTable';
 import CompanyCreateModal from '@/components/companies/CompanyCreateModal';
 import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
+import { useSupabaseSystems } from '@/hooks/useSupabaseSystems';
+import { useSupabaseTasks } from '@/hooks/useSupabaseTasks';
 
 const Companies: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,11 +16,20 @@ const Companies: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   
   const { companies, loading, createCompany, updateCompany, deleteCompany } = useSupabaseCompanies();
+  const { systems } = useSupabaseSystems();
+  const { tasks } = useSupabaseTasks();
 
   const filteredCompanies = companies.filter(company => 
     company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     company.cnpj.includes(searchTerm)
   );
+
+  // Helper function to get counts for each company
+  const getCompanyCounts = (companyId: string) => {
+    const systemsCount = systems.filter(s => s.companyIds?.includes(companyId)).length;
+    const tasksCount = tasks.filter(t => t.companyId === companyId).length;
+    return { systemsCount, tasksCount };
+  };
 
   if (loading) {
     return (
@@ -69,13 +80,18 @@ const Companies: React.FC = () => {
 
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCompanies.map((company) => (
-            <CompanyCard
-              key={company.id}
-              company={company}
-              onUpdate={updateCompany}
-            />
-          ))}
+          {filteredCompanies.map((company) => {
+            const { systemsCount, tasksCount } = getCompanyCounts(company.id);
+            return (
+              <CompanyCard
+                key={company.id}
+                company={company}
+                systemsCount={systemsCount}
+                tasksCount={tasksCount}
+                onUpdate={updateCompany}
+              />
+            );
+          })}
         </div>
       ) : (
         <CompanyListTable 

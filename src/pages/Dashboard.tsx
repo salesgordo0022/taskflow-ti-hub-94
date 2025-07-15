@@ -9,6 +9,7 @@ import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
 import { useSupabaseSystems } from '@/hooks/useSupabaseSystems';
 import { useSupabaseTasks } from '@/hooks/useSupabaseTasks';
 import { useSupabaseIncidents } from '@/hooks/useSupabaseIncidents';
+import { Building2, Server, CheckSquare, AlertTriangle } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const { companies, loading: companiesLoading } = useSupabaseCompanies();
@@ -36,37 +37,37 @@ const Dashboard: React.FC = () => {
         <MetricCard
           title="Total de Empresas"
           value={companies.length}
-          trend={0}
+          icon={Building2}
           color="blue"
         />
         <MetricCard
           title="Sistemas Ativos"
           value={activeSystems}
-          trend={0}
+          icon={Server}
           color="green"
         />
         <MetricCard
           title="Tarefas Pendentes"
           value={pendingTasks}
-          trend={0}
+          icon={CheckSquare}
           color="yellow"
         />
         <MetricCard
           title="Incidentes Abertos"
           value={openIncidents}
-          trend={0}
+          icon={AlertTriangle}
           color="red"
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ProductivityChart />
-        <SystemProgressChart systems={systems} />
+        <SystemProgressChart />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TaskPriorityChart tasks={tasks} />
-        <AutomationReport companies={companies} />
+        <TaskPriorityChart />
+        <AutomationReport />
       </div>
     </div>
   );

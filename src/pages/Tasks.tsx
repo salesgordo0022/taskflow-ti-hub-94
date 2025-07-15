@@ -10,6 +10,13 @@ const Tasks: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { tasks, loading, createTask, updateTask } = useSupabaseTasks();
 
+  const handleStatusChange = async (taskId: string, status: any) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+      await updateTask({ ...task, status });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -28,7 +35,12 @@ const Tasks: React.FC = () => {
         </Button>
       </div>
 
-      <KanbanBoard tasks={tasks} onUpdateTask={updateTask} />
+      <KanbanBoard 
+        tasks={tasks} 
+        onStatusChange={handleStatusChange}
+        onTaskUpdate={updateTask}
+        onTaskCreate={createTask}
+      />
 
       <TaskCreateModal
         open={isCreateModalOpen}

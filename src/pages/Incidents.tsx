@@ -6,16 +6,44 @@ import { Input } from '@/components/ui/input';
 import IncidentCard from '@/components/incidents/IncidentCard';
 import IncidentCreateModal from '@/components/incidents/IncidentCreateModal';
 import { useSupabaseIncidents } from '@/hooks/useSupabaseIncidents';
+import { useSupabaseSystems } from '@/hooks/useSupabaseSystems';
+import { useSupabaseCompanies } from '@/hooks/useSupabaseCompanies';
 
 const Incidents: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   
   const { incidents, loading, createIncident, updateIncident } = useSupabaseIncidents();
+  const { systems } = useSupabaseSystems();
+  const { companies } = useSupabaseCompanies();
 
   const filteredIncidents = incidents.filter(incident => 
     incident.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Helper functions to get names
+  const getSystemNames = (systemIds: string[]) => {
+    return systemIds.map(id => {
+      const system = systems.find(s => s.id === id);
+      return system ? system.name : 'Sistema não encontrado';
+    });
+  };
+
+  const getCompanyName = (companyId: string) => {
+    const company = companies.find(c => c.id === companyId);
+    return company ? company.name : 'Empresa não encontrada';
+  };
+
+  const handleAddNote = async (incidentId: string, note: string) => {
+    const incident = incidents.find(i => i.id === incidentId);
+    if (incident) {
+      const updatedIncident = {
+        ...incident,
+        notes: [...incident.notes, note]
+      };
+      await updateIncident(updatedIncident);
+    }
+  };
 
   if (loading) {
     return (
@@ -50,7 +78,12 @@ const Incidents: React.FC = () => {
           <IncidentCard
             key={incident.id}
             incident={incident}
+            systemNames={getSystemNames(incident.systemIds)}
+            companyName={getCompanyName(incident.companyId)}
+            systems={systems}
+            companies={companies}
             onUpdate={updateIncident}
+            onAddNote={handleAddNote}
           />
         ))}
       </div>
@@ -59,6 +92,8 @@ const Incidents: React.FC = () => {
         open={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
         onCreate={createIncident}
+        systems={systems}
+        companies={companies}
       />
     </div>
   );

@@ -61,7 +61,7 @@ const Systems: React.FC = () => {
       </div>
 
       <SystemCreateModal
-        onCreate={createSystem}
+        onSave={createSystem}
       />
     </div>
   );
